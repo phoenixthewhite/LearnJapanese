@@ -28,7 +28,7 @@ public class TextView2 extends TextView {
         applyCustomFont(context);
     }
     private void applyCustomFont(Context context) {
-        Typeface customFont = FontCache.getTypeface("uvf2.ttf", context);
+        Typeface customFont = FontCache.getTypeface("uvf3.ttf", context);
         setTypeface(customFont);
     }
 }
