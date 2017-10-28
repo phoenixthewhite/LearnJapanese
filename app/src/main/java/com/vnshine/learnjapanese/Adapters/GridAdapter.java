@@ -8,27 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.vnshine.learnjapanese.Models.Category;
+import com.vnshine.learnjapanese.CustomFont.TextView2;
+import com.vnshine.learnjapanese.Models.ItemGridView;
 import com.vnshine.learnjapanese.R;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
  * Created by phoenix on 26/10/17.
  */
 
-public class GridAdapters extends ArrayAdapter<Category> {
+public class GridAdapter extends ArrayAdapter<ItemGridView> {
     Context context;
     LayoutInflater inflater;
-    List<Category> categories;
+    List<ItemGridView> items;
+    InputStream is;
 
-    public GridAdapters(@NonNull Context context, int resource, @NonNull List<Category> objects) {
+    public GridAdapter(@NonNull Context context, int resource, @NonNull List<ItemGridView> objects) {
         super(context, resource, objects);
         this.context = context;
         inflater = LayoutInflater.from(context);
-        categories = objects;
+        items = objects;
     }
 
     @NonNull
@@ -39,18 +41,17 @@ public class GridAdapters extends ArrayAdapter<Category> {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_category,parent,false);
             holder.categoryName = convertView.findViewById(R.id.category_name);
-            holder.cateporyImage = convertView.findViewById(R.id.category_image);
+            holder.categoryImage = convertView.findViewById(R.id.category_image);
             convertView.setTag(holder);
         } holder = (ViewHolder) convertView.getTag();
-
-        Category category = categories.get(position);
-        holder.cateporyImage.setImageResource(category.getId());
-        holder.categoryName.setText(category.getName());
+        ItemGridView item = items.get(position);
+        holder.categoryImage.setImageResource(item.getImage());
+        holder.categoryName.setText(item.getCategory().getEnglish());
         return convertView;
     }
 
     class ViewHolder{
-        ImageView cateporyImage;
-        TextView categoryName;
+        ImageView categoryImage;
+        TextView2 categoryName;
     }
 }

@@ -20,7 +20,9 @@
             android:layout_marginRight="60dp"
             android:backgroundTint="@android:color/transparent"
             android:padding="5dp"
-            android:focusedByDefault="false"/>
+            android:focusedByDefault="false"
+            android:focusable="auto"
+            />
 
         <ImageView
             android:layout_width="25dp"

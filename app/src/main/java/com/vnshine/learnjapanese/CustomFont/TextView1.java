@@ -9,18 +9,18 @@ import android.widget.TextView;
  * Created by phoenix on 18/10/17.
  */
 
-public class CustomTextView extends TextView {
+public class TextView1 extends TextView {
 
-    public CustomTextView(Context context) {
+    public TextView1(Context context) {
         super(context);
         applyCustomFont(context);
     }
-    public CustomTextView(Context context, AttributeSet attrs) {
+    public TextView1(Context context, AttributeSet attrs) {
         super(context, attrs);
         applyCustomFont(context);
     }
 
-    public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
+    public TextView1(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         applyCustomFont(context);
     }

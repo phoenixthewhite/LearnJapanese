@@ -1,9 +1,6 @@
 package com.vnshine.learnjapanese.Activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,24 +9,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
 
+import com.vnshine.learnjapanese.Adapters.GridAdapter;
+import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
+import com.vnshine.learnjapanese.Models.Category;
+import com.vnshine.learnjapanese.Models.ItemGridView;
 import com.vnshine.learnjapanese.R;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    String [] names = new String[]{
-      "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"
-            , "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA", "AAAAA"
+    GridView gridView;
+    GridAdapter gridAdapter;
+    ArrayList<Category> categories = new ArrayList<>();
+    ArrayList<ItemGridView> items = new ArrayList<>();
+
+    int[] imageId = new int[]{
+            R.drawable.favorite, R.drawable.greeting, R.drawable.general, R.drawable.number
+            , R.drawable.time, R.drawable.direction, R.drawable.transportation, R.drawable.accommodation
+            , R.drawable.eating, R.drawable.shopping, R.drawable.color, R.drawable.city
+            , R.drawable.country, R.drawable.travel, R.drawable.family, R.drawable.dating1
+            , R.drawable.emergency, R.drawable.sick, R.drawable.homonym, R.drawable.store
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setNavigationView(toolbar);
+        setGridView();
     }
 
     @Override
@@ -89,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void setNavigationView(Toolbar toolbar){
+    public void setNavigationView(Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -97,5 +111,24 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void readDB() {
+        DatabaseHelper.xuLiSaoChepCSDL(this);
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        categories = databaseHelper.getAllCategories();
+        ItemGridView item;
+        for (int i = 0; i < categories.size(); i++) {
+            item = new ItemGridView(imageId[i], categories.get(i));
+            items.add(item);
+        }
+    }
+
+    public void setGridView() {
+        readDB();
+        gridView = findViewById(R.id.category);
+        gridAdapter = new GridAdapter(this,R.layout.item_category,items);
+        gridView.setAdapter(gridAdapter);
+
     }
 }
