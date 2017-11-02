@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.vnshine.learnjapanese.Models.Category;
-import com.vnshine.learnjapanese.Models.ItemGridView;
 
 import java.io.File;
 import java.io.FileInputStream;

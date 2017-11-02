@@ -4,16 +4,16 @@ package com.vnshine.learnjapanese.Models;
  * Created by phoenix on 26/10/17.
  */
 
-public class ItemGridView {
+public class GridViewItem {
     private int image;
     private Category category;
 
-    public ItemGridView(int image, Category category) {
+    public GridViewItem(int image, Category category) {
         this.image = image;
         this.category = category;
     }
 
-    public ItemGridView() {
+    public GridViewItem() {
     }
 
     public int getImage() {

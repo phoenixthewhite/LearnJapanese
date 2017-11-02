@@ -7,14 +7,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
 
-import com.vnshine.learnjapanese.Adapters.GridAdapter;
+import com.vnshine.learnjapanese.Adapters.GridViewAdapter;
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
 import com.vnshine.learnjapanese.Models.Category;
-import com.vnshine.learnjapanese.Models.ItemGridView;
+import com.vnshine.learnjapanese.Models.GridViewItem;
 import com.vnshine.learnjapanese.R;
 
 import java.util.ArrayList;
@@ -23,12 +22,12 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     GridView gridView;
-    GridAdapter gridAdapter;
+    GridViewAdapter gridViewAdapter;
     ArrayList<Category> categories = new ArrayList<>();
-    ArrayList<ItemGridView> items = new ArrayList<>();
+    ArrayList<GridViewItem> items = new ArrayList<>();
 
     int[] imageId = new int[]{
-            R.drawable.favorite, R.drawable.greeting, R.drawable.general, R.drawable.number
+            R.drawable.favoritebutton, R.drawable.greeting, R.drawable.general, R.drawable.number
             , R.drawable.time, R.drawable.direction, R.drawable.transportation, R.drawable.accommodation
             , R.drawable.eating, R.drawable.shopping, R.drawable.color, R.drawable.city
             , R.drawable.country, R.drawable.travel, R.drawable.family, R.drawable.dating1
@@ -56,12 +55,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,9 +116,9 @@ public class MainActivity extends AppCompatActivity
         DatabaseHelper.xuLiSaoChepCSDL(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         categories = databaseHelper.getAllCategories();
-        ItemGridView item;
+        GridViewItem item;
         for (int i = 0; i < categories.size(); i++) {
-            item = new ItemGridView(imageId[i], categories.get(i));
+            item = new GridViewItem(imageId[i], categories.get(i));
             items.add(item);
         }
     }
@@ -127,8 +126,8 @@ public class MainActivity extends AppCompatActivity
     public void setGridView() {
         readDB();
         gridView = findViewById(R.id.category);
-        gridAdapter = new GridAdapter(this,R.layout.item_category,items);
-        gridView.setAdapter(gridAdapter);
+        gridViewAdapter = new GridViewAdapter(this,R.layout.item_category,items);
+        gridView.setAdapter(gridViewAdapter);
 
     }
 }
