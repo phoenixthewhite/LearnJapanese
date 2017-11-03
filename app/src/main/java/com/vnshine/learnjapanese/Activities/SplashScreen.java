@@ -20,10 +20,9 @@ public class SplashScreen extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         final Intent intent=new Intent(this,MainActivity.class);
         intent.setAction("main");
-        CountDownTimer countDownTimer=new CountDownTimer(2000,100) {
+        CountDownTimer countDownTimer=new CountDownTimer(200,100) {
             @Override
             public void onTick(long millisUntilFinished) {
-
             }
 
             @Override

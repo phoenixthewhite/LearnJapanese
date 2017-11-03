@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
     ArrayList<GridViewItem> items = new ArrayList<>();
 
     int[] imageId = new int[]{
-            R.drawable.favoritebutton, R.drawable.greeting, R.drawable.general, R.drawable.number
+            R.drawable.favorite, R.drawable.greeting, R.drawable.general, R.drawable.number
             , R.drawable.time, R.drawable.direction, R.drawable.transportation, R.drawable.accommodation
             , R.drawable.eating, R.drawable.shopping, R.drawable.color, R.drawable.city
             , R.drawable.country, R.drawable.travel, R.drawable.family, R.drawable.dating1
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
+//        // Inflate the menu; this adds sentences to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.main, menu);
 //        return true;
 //    }
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void readDB() {
-        DatabaseHelper.xuLiSaoChepCSDL(this);
+        DatabaseHelper.handleCopyingDataBase(this);
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         categories = databaseHelper.getAllCategories();
         GridViewItem item;
@@ -121,12 +121,13 @@ public class MainActivity extends AppCompatActivity
             item = new GridViewItem(imageId[i], categories.get(i));
             items.add(item);
         }
+        databaseHelper.close();
     }
 
     public void setGridView() {
         readDB();
         gridView = findViewById(R.id.category);
-        gridViewAdapter = new GridViewAdapter(this,R.layout.item_category,items);
+        gridViewAdapter = new GridViewAdapter(this, R.layout.item_category, items);
         gridView.setAdapter(gridViewAdapter);
 
     }

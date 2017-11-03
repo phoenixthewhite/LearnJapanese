@@ -56,10 +56,10 @@ public class GridViewAdapter extends ArrayAdapter<GridViewItem> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, Locale.getDefault().getDisplayLanguage(), Toast.LENGTH_SHORT).show();
                 System.out.println(Locale.getDefault().getDisplayLanguage());
                 Intent intent = new Intent(finalConvertView.getContext(), CategoryActivity.class);
-                intent.putExtra("name",getLanguage(item));
+                intent.putExtra("category",getLanguage(item));
+                intent.putExtra("category_id",item.getCategory().getId());
                 finalConvertView.getContext().startActivity(intent);
             }
         });

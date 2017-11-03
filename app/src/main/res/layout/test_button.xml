@@ -23,7 +23,6 @@
             android:text="@string/test"
             android:textSize="27sp"
             android:background="#00000000"
-            android:onClick="runButton"
             android:id="@+id/test"/>
     </android.support.v7.widget.CardView>
 

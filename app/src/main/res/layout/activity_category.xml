@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ebebeb"
     tools:context="com.vnshine.learnjapanese.Activities.CategoryActivity"
     android:orientation="vertical">
     <android.support.design.widget.AppBarLayout
@@ -22,6 +23,11 @@
         android:id="@+id/sentence"
         android:layout_width="match_parent"
         android:layout_height="450dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:divider="#ebebeb"
+        android:dividerHeight="7dp"
         >
 
     </ListView>
