@@ -29,7 +29,6 @@
         android:divider="#ebebeb"
         android:dividerHeight="7dp"
         >
-
     </ListView>
     <include layout="@layout/test_button"/>
 </LinearLayout>

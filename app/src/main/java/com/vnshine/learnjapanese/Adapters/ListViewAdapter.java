@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
@@ -50,9 +51,11 @@ public class ListViewAdapter extends ArrayAdapter<Sentence> {
             holder = new ViewHolder();
             holder.meaning = convertView.findViewById(R.id.meaning);
             holder.favorite = convertView.findViewById(R.id.favorite);
+            holder.japanese = convertView.findViewById(R.id.japanese);
+            holder.pinyin = convertView.findViewById(R.id.pinyin);
             convertView.setTag(holder);
         } else holder = (ViewHolder) convertView.getTag();
-        final Sentence sentence = sentences.get(position);
+        Sentence sentence = sentences.get(position);
         holder.meaning.setText(getLanguage(sentence));
         if (sentence.getFavorite() == 0) {
             holder.favorite.setChecked(false);
@@ -61,6 +64,11 @@ public class ListViewAdapter extends ArrayAdapter<Sentence> {
                 + "_f", "raw", context.getPackageName());
         setClickListenner(convertView, identifier);
         setFavorite(holder.favorite, sentence);
+
+        holder.japanese.setText(sentence.getJapanese());
+        holder.pinyin.setText(sentence.getPinyin());
+
+
         return convertView;
     }
 
@@ -78,7 +86,7 @@ public class ListViewAdapter extends ArrayAdapter<Sentence> {
 
                 if (mp.isPlaying()) {
                     mp.stop();
-                    mp = MediaPlayer.create(context,identifier);
+                    mp = MediaPlayer.create(context, identifier);
                     mp.start();
                 } else {
                     mp = MediaPlayer.create(context, identifier);
@@ -89,16 +97,27 @@ public class ListViewAdapter extends ArrayAdapter<Sentence> {
         });
     }
 
-    private void setFavorite(CheckBox checkBox, Sentence sentence) {
+    private void setFavorite(final CheckBox checkBox, final Sentence sentence) {
 //        DatabaseHelper databaseHelper = new DatabaseHelper(context);
         dbHelper = new DatabaseHelper(context);
-        if (checkBox.isChecked()) {
-            sentence.setFavorite(1);
-            updateFavorite(sentence);
-        } else {
-            sentence.setFavorite(0);
-            updateFavorite(sentence);
-        }
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    sentence.setFavorite(1);
+                    updateFavorite(sentence);
+                    System.out.println("favorite: " + sentence.getFavorite());
+
+                } else {
+                    sentence.setFavorite(0);
+                    updateFavorite(sentence);
+                    System.out.println("Favorite: "+sentence.getFavorite());
+                }
+            }
+        });
+
+
+
     }
 
     public void updateFavorite(Sentence sentence) {
@@ -113,6 +132,8 @@ public class ListViewAdapter extends ArrayAdapter<Sentence> {
 
     class ViewHolder {
         TextView meaning;
+        TextView japanese;
+        TextView pinyin;
         CheckBox favorite;
     }
 }
