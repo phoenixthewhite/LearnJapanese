@@ -1,35 +1,30 @@
 package com.vnshine.learnjapanese.Models;
 
 /**
- * Created by phoenix on 30/10/17.
+ * Created by phoenix on 09/11/17.
  */
 
-public class Sentence {
+public class Meaning {
     private int id;
     private int category_id;
     private String english;
-    private String pinyin;
-    private String japanese;
     private int favorite;
     private String voice;
     private int status;
     private String vietnamese;
 
-    public Sentence(int id, int category_id, String english, String pinyin,
-                    String japanese, int favorite, String voice, int status,
-                    String vietnamese) {
+    public Meaning(int id, int category_id, String english,
+                   int favorite, String voice, int status, String vietnamese) {
         this.id = id;
         this.category_id = category_id;
         this.english = english;
-        this.pinyin = pinyin;
-        this.japanese = japanese;
         this.favorite = favorite;
         this.voice = voice;
         this.status = status;
         this.vietnamese = vietnamese;
     }
 
-    public Sentence() {
+    public Meaning() {
     }
 
     public int getId() {
@@ -54,22 +49,6 @@ public class Sentence {
 
     public void setEnglish(String english) {
         this.english = english;
-    }
-
-    public String getPinyin() {
-        return pinyin;
-    }
-
-    public void setPinyin(String pinyin) {
-        this.pinyin = pinyin;
-    }
-
-    public String getJapanese() {
-        return japanese;
-    }
-
-    public void setJapanese(String japanese) {
-        this.japanese = japanese;
     }
 
     public int getFavorite() {

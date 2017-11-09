@@ -1,17 +1,14 @@
 package com.vnshine.learnjapanese.DataBase;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-import android.util.Log;
 
 import com.vnshine.learnjapanese.Models.Category;
-import com.vnshine.learnjapanese.Models.Sentence;
+import com.vnshine.learnjapanese.Models.JapaneseSentence;
+import com.vnshine.learnjapanese.Models.Meaning;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,10 +34,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void doCreateDb() {
         db = mContext.openOrCreateDatabase(DB_NAME, MODE_PRIVATE, null);
-//        System.out.println("MMMM" + db);
-//        if (db != null) {
-//            Log.e("bbb", db.toString());
-//        }
     }
 
 
@@ -135,6 +128,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    ArrayList<Meaning> listMeanings = new ArrayList<>();
+    ArrayList<JapaneseSentence> listJapansesSentences = new ArrayList<>();
+
+
     public ArrayList<Category> getAllCategories() {
         ArrayList<Category> categories = new ArrayList<>();
 
@@ -157,11 +154,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return categories;
     }
 
-    public ArrayList<Sentence> getAllSentences(String category) {
-        ArrayList<Sentence> sentences = new ArrayList<>();
+    public void getAllSentences(String category) {
+//        ArrayList<Sentence> sentences = new ArrayList<>();
         try {
-            Cursor cursor = db.query("sentences", null, "category_id = ?", new String[]{category},
-                    null, null, null);
+            Cursor cursor = db.query("sentences", null, "category_id = ?",
+                    new String[]{category}, null, null, null);
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 int category_id = cursor.getInt(1);
@@ -172,25 +169,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String voice = cursor.getString(6);
                 int status = cursor.getInt(7);
                 String vietnamese = cursor.getString(8);
-                Sentence sentence = new Sentence(id, category_id, english, pinyin,
-                        japanese, favorite, voice, status,
-                        vietnamese);
-                sentences.add(sentence);
+                JapaneseSentence japaneseSentence = new JapaneseSentence(id, category_id,
+                        pinyin, japanese);
+                Meaning meaning = new Meaning(id, category_id, english, favorite,
+                        voice, status, vietnamese);
+                this.listJapansesSentences.add(japaneseSentence);
+                this.listMeanings.add(meaning);
             }
             cursor.close();
-            System.out.println("Sentences size: " + sentences.size() + "\n");
 
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-        return sentences;
     }
 
-    public ArrayList<Sentence> getAllFavoriteSentences() {
-        ArrayList<Sentence> sentences = new ArrayList<>();
+    public void getAllFavoriteSentences() {
+//        ArrayList<Sentence> sentences = new ArrayList<>();
         try {
-            Cursor cursor = db.query("sentences", null, "favorite = 1", null,
-                    null, null, null);
+            Cursor cursor = db.query("sentences", null, "favorite = 1",
+                    null, null, null, null);
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 int category_id = cursor.getInt(1);
@@ -201,17 +198,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String voice = cursor.getString(6);
                 int status = cursor.getInt(7);
                 String vietnamese = cursor.getString(8);
-                Sentence sentence = new Sentence(id, category_id, english, pinyin,
-                        japanese, favorite, voice, status,
-                        vietnamese);
-                sentences.add(sentence);
+                JapaneseSentence japaneseSentence = new JapaneseSentence(id, category_id,
+                        pinyin, japanese);
+                Meaning meaning = new Meaning(id, category_id, english, favorite,
+                        voice, status, vietnamese);
+                this.listJapansesSentences.add(japaneseSentence);
+                this.listMeanings.add(meaning);
             }
             cursor.close();
-            System.out.println("Sentences size: " + sentences.size() + "\n");
 
         } catch (Exception e) {
             System.out.println(e.toString());
         }
-        return sentences;
+    }
+
+    public ArrayList<Meaning> getListMeanings() {
+        return this.listMeanings;
+    }
+
+    public ArrayList<JapaneseSentence> getListJapansesSentences() {
+        return this.listJapansesSentences;
     }
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ebebeb"
+    android:descendantFocusability="blocksDescendants"
     tools:context="com.vnshine.learnjapanese.Activities.CategoryActivity"
     android:orientation="vertical">
     <android.support.design.widget.AppBarLayout
@@ -19,7 +20,8 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             />
     </android.support.design.widget.AppBarLayout>
-    <ListView
+    <ExpandableListView
+        android:groupIndicator="@null"
         android:id="@+id/sentence"
         android:layout_width="match_parent"
         android:layout_height="450dp"
@@ -29,6 +31,6 @@
         android:divider="#ebebeb"
         android:dividerHeight="7dp"
         >
-    </ListView>
+    </ExpandableListView>
     <include layout="@layout/test_button"/>
 </LinearLayout>

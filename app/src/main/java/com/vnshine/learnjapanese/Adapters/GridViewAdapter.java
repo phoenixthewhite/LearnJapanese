@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vnshine.learnjapanese.Activities.CategoryActivity;
@@ -68,7 +69,7 @@ public class GridViewAdapter extends ArrayAdapter<GridViewItem> {
 
     class ViewHolder {
         ImageView categoryImage;
-        TextView2 categoryName;
+        TextView categoryName;
     }
 
     private String getLanguage(GridViewItem item) {

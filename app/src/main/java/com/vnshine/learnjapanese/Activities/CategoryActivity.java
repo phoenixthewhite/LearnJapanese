@@ -7,23 +7,26 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ExpandableListView;
 
-import com.vnshine.learnjapanese.Adapters.ListViewAdapter;
+import com.vnshine.learnjapanese.Adapters.ExpandableListAdapter;
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
-import com.vnshine.learnjapanese.Models.Sentence;
+import com.vnshine.learnjapanese.Models.JapaneseSentence;
+import com.vnshine.learnjapanese.Models.Meaning;
 import com.vnshine.learnjapanese.R;
 
 import java.util.ArrayList;
 
 public class CategoryActivity extends AppCompatActivity {
+    private int lastExpandedPosition = -1;
     Toolbar toolbar;
     String category;
     int category_id;
-    ListView listView;
-    ListViewAdapter listViewAdapter;
-    ArrayList<Sentence> sentences = new ArrayList<>();
+    ExpandableListView listView;
+    ExpandableListAdapter listViewAdapter;
+    //    ArrayList<Sentence> sentences = new ArrayList<>();
+    ArrayList<JapaneseSentence> listJapaneseSentences = new ArrayList<>();
+    ArrayList<Meaning> listMeanings = new ArrayList<>();
     Button test;
 
     @Override
@@ -38,17 +41,35 @@ public class CategoryActivity extends AppCompatActivity {
     private void setListView() {
         readDB();
         listView = findViewById(R.id.sentence);
-        listViewAdapter = new ListViewAdapter(this,R.layout.item_sentence, sentences);
+        listViewAdapter = new ExpandableListAdapter(this, listJapaneseSentences, listMeanings);
         listView.setAdapter(listViewAdapter);
+        listView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (lastExpandedPosition != -1
+                        && groupPosition != lastExpandedPosition) {
+                    listView.collapseGroup(lastExpandedPosition);
+                }
+                lastExpandedPosition = groupPosition;
+            }
+        });
 
     }
 
     private void readDB() {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        if (category_id == 0){
-            sentences = databaseHelper.getAllFavoriteSentences();
-        }else{
-            sentences = databaseHelper.getAllSentences(String.valueOf(category_id));
+        if (category_id == 0) {
+//            sentences = databaseHelper.getAllFavoriteSentences();
+            databaseHelper.getAllFavoriteSentences();
+            this.listJapaneseSentences = databaseHelper.getListJapansesSentences();
+            this.listMeanings = databaseHelper.getListMeanings();
+
+
+        } else {
+//            sentences = databaseHelper.getAllSentences(String.valueOf(category_id));
+            databaseHelper.getAllSentences(String.valueOf(category_id));
+            this.listJapaneseSentences = databaseHelper.getListJapansesSentences();
+            this.listMeanings = databaseHelper.getListMeanings();
         }
         databaseHelper.close();
     }
@@ -66,7 +87,7 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(category);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        Log.d("category",category);
+        Log.d("category", category);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
