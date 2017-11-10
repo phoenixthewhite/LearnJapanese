@@ -1,11 +1,13 @@
 package com.vnshine.learnjapanese.Activities;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
@@ -13,6 +15,7 @@ import com.vnshine.learnjapanese.Adapters.ExpandableListAdapter;
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
 import com.vnshine.learnjapanese.Models.JapaneseSentence;
 import com.vnshine.learnjapanese.Models.Meaning;
+import com.vnshine.learnjapanese.Models.Sentence;
 import com.vnshine.learnjapanese.R;
 
 import java.util.ArrayList;
@@ -24,7 +27,7 @@ public class CategoryActivity extends AppCompatActivity {
     int category_id;
     ExpandableListView listView;
     ExpandableListAdapter listViewAdapter;
-    //    ArrayList<Sentence> sentences = new ArrayList<>();
+        ArrayList<Sentence> sentences = new ArrayList<>();
     ArrayList<JapaneseSentence> listJapaneseSentences = new ArrayList<>();
     ArrayList<Meaning> listMeanings = new ArrayList<>();
     Button test;
@@ -33,6 +36,8 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getContent();
         setToolbar();
         setListView();
@@ -53,7 +58,6 @@ public class CategoryActivity extends AppCompatActivity {
                 lastExpandedPosition = groupPosition;
             }
         });
-
     }
 
     private void readDB() {
@@ -63,7 +67,7 @@ public class CategoryActivity extends AppCompatActivity {
             databaseHelper.getAllFavoriteSentences();
             this.listJapaneseSentences = databaseHelper.getListJapansesSentences();
             this.listMeanings = databaseHelper.getListMeanings();
-
+//            sentences = databaseHelper.getAllFavoriteSentences();
 
         } else {
 //            sentences = databaseHelper.getAllSentences(String.valueOf(category_id));

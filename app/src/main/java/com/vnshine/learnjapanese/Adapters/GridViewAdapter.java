@@ -69,7 +69,7 @@ public class GridViewAdapter extends ArrayAdapter<GridViewItem> {
 
     class ViewHolder {
         ImageView categoryImage;
-        TextView categoryName;
+        TextView2 categoryName;
     }
 
     private String getLanguage(GridViewItem item) {

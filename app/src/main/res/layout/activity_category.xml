@@ -6,31 +6,35 @@
     android:layout_height="match_parent"
     android:background="#ebebeb"
     android:descendantFocusability="blocksDescendants"
-    tools:context="com.vnshine.learnjapanese.Activities.CategoryActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.vnshine.learnjapanese.Activities.CategoryActivity">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#e366a9"
+        android:background="#4359b0"
         android:theme="@style/AppTheme.AppBarOverlay">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/category_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            />
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
+
     <ExpandableListView
-        android:groupIndicator="@null"
         android:id="@+id/sentence"
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:divider="#ebebeb"
-        android:dividerHeight="7dp"
+        android:groupIndicator="@null"
+        android:childDivider="@android:color/white"
+        android:dividerHeight="10dp"
+        android:divider="#00ebebeb"
         >
     </ExpandableListView>
-    <include layout="@layout/test_button"/>
+
+    <include layout="@layout/test_button" />
 </LinearLayout>

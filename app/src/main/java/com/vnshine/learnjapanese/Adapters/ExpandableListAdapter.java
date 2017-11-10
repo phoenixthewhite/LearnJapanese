@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
 import com.vnshine.learnjapanese.Models.JapaneseSentence;
 import com.vnshine.learnjapanese.Models.Meaning;
@@ -86,50 +88,52 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             holder = new MeaningHolder();
             convertView = inflater.inflate(R.layout.item_list_group, parent, false);
             holder.meaning = convertView.findViewById(R.id.meaning);
-//            holder.favorite = convertView.findViewById(R.id.favorite);
+            holder.favorite = convertView.findViewById(R.id.favorite);
             convertView.setTag(holder);
         } else holder = (MeaningHolder) convertView.getTag();
         Meaning meaning = listMeanings.get(groupPosition);
         holder.meaning.setText(getLanguage(meaning));
-//        if (meaning.getFavorite() == 0) {
-//            holder.favorite.setChecked(false);
-//        } else holder.favorite.setChecked(true);
+        if (meaning.getFavorite() == 0) {
+            holder.favorite.setChecked(false);
+        } else holder.favorite.setChecked(true);
         final int identifier = context.getResources().getIdentifier(meaning.getVoice()
                 + "_f", "raw", context.getPackageName());
 //        setGroupClickListener(convertView, identifier, isExpanded );
-//        setFavorite(holder.favorite, meaning);
+        setFavorite(holder.favorite, meaning);
+
         return convertView;
     }
 
-//    private void setFavorite(CheckBox checkBox, final Meaning meaning) {
-//        dbHelper = new DatabaseHelper(context);
-//        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    meaning.setFavorite(1);
-//                    updateFavorite(meaning);
-//                    System.out.println("favorite: " + meaning.getFavorite());
-//
-//                } else {
-//                    meaning.setFavorite(0);
-//                    updateFavorite(meaning);
-//                    System.out.println("Favorite: " + meaning.getFavorite());
-//                }
-//            }
-//        });
-//    }
+    private void setFavorite(final CheckBox checkBox, final Meaning meaning) {
+//        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        dbHelper = new DatabaseHelper(context);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    meaning.setFavorite(1);
+                    updateFavorite(meaning);
+                    System.out.println("favorite: " + meaning.getFavorite());
 
-//    private void updateFavorite(Meaning meaning) {
-//        db = dbHelper.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("favorite", meaning.getFavorite());
-//        // updating row
-//        db.update("sentences", values, "_id = ?",
-//                new String[]{String.valueOf(meaning.getId())});
-//        db.close();
-//
-//    }
+                } else {
+                    meaning.setFavorite(0);
+                    updateFavorite(meaning);
+                    System.out.println("Favorite: "+meaning.getFavorite());
+                }
+            }
+        });
+    }
+
+    public void updateFavorite(Meaning meaning) {
+        db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("favorite", meaning.getFavorite());
+        // updating row
+        db.update("sentences", values, "_id = ?",
+                new String[]{String.valueOf(meaning.getId())});
+        db.close();
+    }
+
 
     private void setGroupClickListener(final View convertView, final int identifier, final Boolean isExpanded) {
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -144,10 +148,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     mp = MediaPlayer.create(context, identifier);
                     mp.start();
                 }
-
             }
         });
     }
+
+
 
     private String getLanguage(Meaning meaning) {
         if (Locale.getDefault().getDisplayLanguage().equals("English")) {
@@ -166,11 +171,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.item_list_item, parent, false);
             holder.japanese = convertView.findViewById(R.id.japanese);
             holder.pinyin = convertView.findViewById(R.id.pinyin);
+            YoYo.with(Techniques.FadeInDown)
+                    .duration(500)
+                    .playOn(convertView);
             convertView.setTag(holder);
         } else holder = (JapaneseSentenceHolder) convertView.getTag();
         JapaneseSentence japaneseSentence = (JapaneseSentence) getChild(groupPosition, childPosition);
         holder.japanese.setText(japaneseSentence.getJapanese());
         holder.pinyin.setText(japaneseSentence.getPinyin());
+        YoYo.with(Techniques.FadeInDown)
+                .duration(500)
+                .playOn(convertView);
+        convertView.setPadding(0, 0, 0, 0);
         return convertView;
     }
 
@@ -181,7 +193,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     class MeaningHolder {
         TextView meaning;
-//        CheckBox favorite;
+        CheckBox favorite;
     }
 
     class JapaneseSentenceHolder {
