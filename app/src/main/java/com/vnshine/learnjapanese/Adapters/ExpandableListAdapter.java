@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -105,7 +106,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     private void setFavorite(final CheckBox checkBox, final Meaning meaning) {
-//        DatabaseHelper databaseHelper = new DatabaseHelper(context);
         dbHelper = new DatabaseHelper(context);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -118,7 +118,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 } else {
                     meaning.setFavorite(0);
                     updateFavorite(meaning);
-                    System.out.println("Favorite: "+meaning.getFavorite());
+                    System.out.println("Favorite: " + meaning.getFavorite());
                 }
             }
         });
@@ -134,25 +134,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         db.close();
     }
 
-
-    private void setGroupClickListener(final View convertView, final int identifier, final Boolean isExpanded) {
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("==========" + listJapaneseSentences.get(3).getJapanese()+"==============");
-                if (mp.isPlaying()) {
-                    mp.stop();
-                    mp = MediaPlayer.create(context, identifier);
-                    mp.start();
-                } else {
-                    mp = MediaPlayer.create(context, identifier);
-                    mp.start();
-                }
-            }
-        });
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+        super.onGroupExpanded(groupPosition);
+        int identifier = context.getResources().getIdentifier(listMeanings.get(groupPosition).getVoice()
+                + "_f", "raw", context.getPackageName());
+        if (mp.isPlaying()) {
+            mp.stop();
+            mp = MediaPlayer.create(context, identifier);
+            mp.start();
+        } else {
+            mp = MediaPlayer.create(context, identifier);
+            mp.start();
+        }
     }
-
-
 
     private String getLanguage(Meaning meaning) {
         if (Locale.getDefault().getDisplayLanguage().equals("English")) {
@@ -171,6 +166,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.item_list_item, parent, false);
             holder.japanese = convertView.findViewById(R.id.japanese);
             holder.pinyin = convertView.findViewById(R.id.pinyin);
+            holder.listening = convertView.findViewById(R.id.listening);
             YoYo.with(Techniques.FadeInDown)
                     .duration(500)
                     .playOn(convertView);
@@ -182,14 +178,41 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         YoYo.with(Techniques.FadeInDown)
                 .duration(500)
                 .playOn(convertView);
-        convertView.setPadding(0, 0, 0, 0);
+        int identifier = context.getResources().getIdentifier(listMeanings.get(groupPosition).getVoice()
+                + "_f", "raw", context.getPackageName());
+        setSpeaker(holder.listening, identifier);
         return convertView;
+    }
+
+    private void setSpeaker(final ImageView imageView, final int identifier) {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setImageResource(R.drawable.listen_focus);
+                if (mp.isPlaying()) {
+                    mp.stop();
+                    mp = MediaPlayer.create(context, identifier);
+                    mp.start();
+                } else {
+                    mp = MediaPlayer.create(context, identifier);
+                    mp.start();
+                }
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        imageView.setImageResource(R.drawable.listen);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
+
 
     class MeaningHolder {
         TextView meaning;
@@ -199,5 +222,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     class JapaneseSentenceHolder {
         TextView japanese;
         TextView pinyin;
+        ImageView listening;
     }
 }

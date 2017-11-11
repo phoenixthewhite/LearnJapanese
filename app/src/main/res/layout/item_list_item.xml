@@ -10,9 +10,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:background="#ffffff"
         android:minHeight="65dp"
         android:orientation="vertical">
@@ -30,20 +31,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="6dp"
                 android:layout_marginRight="60dp"
                 android:layout_marginTop="2dp"
                 android:text="japanese"
+                android:textSize="17sp"
                 android:textColor="#000000" />
 
             <ImageView
+                android:id="@+id/listening"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="14dp"
                 android:layout_marginRight="14dp"
-                android:src="@drawable/listen" />
+                android:background="@drawable/listen"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -59,10 +62,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="6dp"
                 android:layout_marginRight="60dp"
                 android:layout_marginTop="2dp"
                 android:text="nippon de mo"
+                android:textSize="17sp"
                 android:textColor="#000000" />
 
             <ImageView

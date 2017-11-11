@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ebebeb"
+    android:background="#fffcfc"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     tools:context="com.vnshine.learnjapanese.Activities.CategoryActivity">
@@ -22,19 +22,23 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </android.support.design.widget.AppBarLayout>
 
-    <ExpandableListView
-        android:id="@+id/sentence"
+    <RelativeLayout
+        android:background="#ca9c9c9c"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:groupIndicator="@null"
-        android:childDivider="@android:color/white"
-        android:dividerHeight="10dp"
-        android:divider="#00ebebeb"
-        >
-    </ExpandableListView>
+        android:layout_height="470dp">
+        <ExpandableListView
+            android:id="@+id/sentence"
+            android:layout_width="match_parent"
+            android:layout_height="460dp"
+            android:layout_margin="7dp"
+            android:background="#ebebeb"
+            android:childDivider="@android:color/white"
+            android:divider="#00ebebeb"
+            android:dividerHeight="10dp"
+            android:groupIndicator="@null">
+        </ExpandableListView>
+    </RelativeLayout>
+
 
     <include layout="@layout/test_button" />
 </LinearLayout>

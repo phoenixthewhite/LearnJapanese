@@ -15,8 +15,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardBackgroundColor="#c1ff0d00">
+        app:cardBackgroundColor="#ff3f3c">
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"

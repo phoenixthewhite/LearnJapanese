@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
@@ -25,9 +26,10 @@ public class CategoryActivity extends AppCompatActivity {
     Toolbar toolbar;
     String category;
     int category_id;
+    MediaPlayer mp;
     ExpandableListView listView;
     ExpandableListAdapter listViewAdapter;
-        ArrayList<Sentence> sentences = new ArrayList<>();
+    ArrayList<Sentence> sentences = new ArrayList<>();
     ArrayList<JapaneseSentence> listJapaneseSentences = new ArrayList<>();
     ArrayList<Meaning> listMeanings = new ArrayList<>();
     Button test;
@@ -44,6 +46,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void setListView() {
+        mp = new MediaPlayer();
         readDB();
         listView = findViewById(R.id.sentence);
         listViewAdapter = new ExpandableListAdapter(this, listJapaneseSentences, listMeanings);
@@ -58,19 +61,27 @@ public class CategoryActivity extends AppCompatActivity {
                 lastExpandedPosition = groupPosition;
             }
         });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                listView.collapseGroup(lastExpandedPosition);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
     }
 
     private void readDB() {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         if (category_id == 0) {
-//            sentences = databaseHelper.getAllFavoriteSentences();
             databaseHelper.getAllFavoriteSentences();
             this.listJapaneseSentences = databaseHelper.getListJapansesSentences();
             this.listMeanings = databaseHelper.getListMeanings();
-//            sentences = databaseHelper.getAllFavoriteSentences();
 
         } else {
-//            sentences = databaseHelper.getAllSentences(String.valueOf(category_id));
             databaseHelper.getAllSentences(String.valueOf(category_id));
             this.listJapaneseSentences = databaseHelper.getListJapansesSentences();
             this.listMeanings = databaseHelper.getListMeanings();
@@ -91,7 +102,6 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(category);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        Log.d("category", category);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -36,7 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = mContext.openOrCreateDatabase(DB_NAME, MODE_PRIVATE, null);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
@@ -47,11 +46,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + "sentences");
         onCreate(db);
     }
-
-//    @Override
-//    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        throw new SQLiteException("Can't downgrade ");
-//    }
 
     static String DB_NAME = "db.sqlite";
     static String DB_PATH = "/databases/";
@@ -93,7 +87,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String getUrl(Context context) {
         return context.getApplicationInfo().dataDir + DB_PATH + DB_NAME;
     }
-
 
     public static void saveToSd(Context context) {
         File f = new File(context.getApplicationInfo().dataDir + DB_PATH + DB_NAME);
