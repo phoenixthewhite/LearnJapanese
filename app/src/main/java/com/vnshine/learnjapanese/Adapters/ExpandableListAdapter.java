@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -19,6 +21,7 @@ import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
 import com.vnshine.learnjapanese.Models.JapaneseSentence;
 import com.vnshine.learnjapanese.Models.Meaning;
 import com.vnshine.learnjapanese.R;
+import com.vnshine.learnjapanese.Dialog.SpeechPopUp;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -85,6 +88,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                              ViewGroup parent) {
         MeaningHolder holder;
+        convertView = null;
         if (convertView == null) {
             holder = new MeaningHolder();
             convertView = inflater.inflate(R.layout.item_list_group, parent, false);
@@ -167,6 +171,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             holder.japanese = convertView.findViewById(R.id.japanese);
             holder.pinyin = convertView.findViewById(R.id.pinyin);
             holder.listening = convertView.findViewById(R.id.listening);
+            holder.speaking = convertView.findViewById(R.id.speaking);
             YoYo.with(Techniques.FadeInDown)
                     .duration(500)
                     .playOn(convertView);
@@ -180,11 +185,30 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .playOn(convertView);
         int identifier = context.getResources().getIdentifier(listMeanings.get(groupPosition).getVoice()
                 + "_f", "raw", context.getPackageName());
-        setSpeaker(holder.listening, identifier);
+        playAudio(holder.listening, identifier);
+        addSpeakingListener(holder.speaking, japaneseSentence.getJapanese(),
+                japaneseSentence.getPinyin(),identifier);
         return convertView;
     }
 
-    private void setSpeaker(final ImageView imageView, final int identifier) {
+    private void addSpeakingListener(ImageView imageView, final String japanese,
+                                     final String pinyin, final int identifier) {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("==================" + isInternetAvailable() + "==============\n");
+                if (isInternetAvailable()){
+                    SpeechPopUp speechPopUp = new SpeechPopUp(context);
+                    speechPopUp.setContent(japanese, pinyin, identifier);
+                    speechPopUp.show();
+//                    Toast.makeText(context, "Connection avalable",Toast.LENGTH_SHORT).show();
+                }else Toast.makeText(context, R.string.no_internet,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void playAudio(final ImageView imageView, final int identifier) {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,7 +236,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    public boolean isInternetAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
 
+        return cm.getActiveNetworkInfo() != null;
+
+    }
 
     class MeaningHolder {
         TextView meaning;
@@ -223,5 +252,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView japanese;
         TextView pinyin;
         ImageView listening;
+        ImageView speaking;
     }
 }
