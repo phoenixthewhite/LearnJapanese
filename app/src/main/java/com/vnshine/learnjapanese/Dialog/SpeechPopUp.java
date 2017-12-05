@@ -86,6 +86,7 @@ public class SpeechPopUp extends Dialog implements RecognitionListener {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mp.stop();
                 dismiss();
             }
         });
@@ -189,6 +190,7 @@ public class SpeechPopUp extends Dialog implements RecognitionListener {
     public void onError(int error) {
         String errorMessage = getErrorText(error);
         Log.d(LOG_TAG, "FAILED " + errorMessage);
+        tResult.setTextColor(Color.RED);
         tResult.setText(errorMessage);
         micButton.setImageResource(R.drawable.micro);
         micButton.setBackgroundResource(R.drawable.gray_ring);
@@ -200,14 +202,16 @@ public class SpeechPopUp extends Dialog implements RecognitionListener {
         ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         String text = matches.get(0);
-        tResult.setText(text);
+        japanese = japanese.replaceAll("\\(.*?\\) ?", "");
+        japanese = japanese.replaceAll("\\.","");
+        System.out.println(text);
         if (text.equals(japanese)) {
             tResult.setTextColor(Color.GREEN);
             tResult.setText(R.string.correct);
         } else {
             tResult.setTextColor(Color.RED);
-            String t = R.string.incorrect + text;
-            tResult.setText(t);
+            tResult.setText(R.string.incorrect);
+            tResult.setText(text);
         }
     }
 
@@ -240,7 +244,7 @@ public class SpeechPopUp extends Dialog implements RecognitionListener {
                 message = "Network timeout";
                 break;
             case SpeechRecognizer.ERROR_NO_MATCH:
-                message = "No match";
+                message = "Incorrect!";
                 break;
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
                 message = "RecognitionService busy";

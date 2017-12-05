@@ -61,17 +61,6 @@ public class CategoryActivity extends AppCompatActivity {
                 lastExpandedPosition = groupPosition;
             }
         });
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                listView.collapseGroup(lastExpandedPosition);
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
     }
 
     private void readDB() {

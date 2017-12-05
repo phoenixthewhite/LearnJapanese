@@ -196,7 +196,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("==================" + isInternetAvailable() + "==============\n");
+                mp.stop();
                 if (isInternetAvailable()){
                     SpeechPopUp speechPopUp = new SpeechPopUp(context);
                     speechPopUp.setContent(japanese, pinyin, identifier);

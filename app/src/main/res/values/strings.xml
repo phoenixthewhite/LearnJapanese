@@ -10,7 +10,7 @@
     <string name="test">Test</string>
 
     <string name="correct">Correct!</string>
-    <string name="incorrect">Incorrect</string>
+    <string name="incorrect">Incorrect!</string>
     <string name="hearing_nothing">We couldn\'t hear anything</string>
     <string name="processing">Processing...</string>
     <string name="no_internet">No internet connection!</string>

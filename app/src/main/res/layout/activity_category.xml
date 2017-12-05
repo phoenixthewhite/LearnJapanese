@@ -32,6 +32,7 @@
             android:layout_height="460dp"
             android:layout_margin="7dp"
             android:background="#ebebeb"
+            android:focusable="false"
             android:childDivider="@android:color/white"
             android:divider="#00ebebeb"
             android:dividerHeight="10dp"
