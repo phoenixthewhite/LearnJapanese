@@ -24,6 +24,7 @@ import com.vnshine.learnjapanese.R;
 import com.vnshine.learnjapanese.Dialog.SpeechPopUp;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -243,6 +244,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     }
 
+    public void setFilter(ArrayList<Meaning> meanings,ArrayList<JapaneseSentence> japaneseSentences){
+        this.listMeanings = meanings;
+        this.listJapaneseSentences = japaneseSentences;
+        notifyDataSetChanged();
+    }
+
     class MeaningHolder {
         TextView meaning;
         CheckBox favorite;
@@ -254,4 +261,5 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView listening;
         ImageView speaking;
     }
+
 }

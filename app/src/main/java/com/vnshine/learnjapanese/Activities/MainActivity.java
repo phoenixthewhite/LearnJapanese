@@ -1,30 +1,54 @@
 package com.vnshine.learnjapanese.Activities;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.ExpandableListView;
 import android.widget.GridView;
 
+import com.vnshine.learnjapanese.Adapters.ExpandableListAdapter;
 import com.vnshine.learnjapanese.Adapters.GridViewAdapter;
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
 import com.vnshine.learnjapanese.Models.Category;
 import com.vnshine.learnjapanese.Models.GridViewItem;
+import com.vnshine.learnjapanese.Models.JapaneseSentence;
+import com.vnshine.learnjapanese.Models.Meaning;
 import com.vnshine.learnjapanese.R;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    GridView gridView;
-    GridViewAdapter gridViewAdapter;
-    ArrayList<Category> categories = new ArrayList<>();
-    ArrayList<GridViewItem> items = new ArrayList<>();
+    private GridView gridView;
+    private GridViewAdapter gridViewAdapter;
+    private ArrayList<Category> categories = new ArrayList<>();
+    private ArrayList<GridViewItem> items = new ArrayList<>();
+    private ArrayList<Meaning> listMeaning = new ArrayList<>();
+    private ArrayList<JapaneseSentence> listJapaneseSentences = new ArrayList<>();
+    private ExpandableListAdapter eAdapter;
+    private ExpandableListView listResult;
+    private SearchView searchView = null;
+    private SearchView.OnQueryTextListener queryTextListener;
+    private DatabaseHelper databaseHelper;
+    private int lastExpandedPosition = -1;
 
     int[] imageId = new int[]{
             R.drawable.favorite, R.drawable.greeting, R.drawable.general, R.drawable.number
@@ -38,11 +62,55 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
+        DatabaseHelper.handleCopyingDataBase(this);
+        databaseHelper = new DatabaseHelper(this);
         setSupportActionBar(toolbar);
         setNavigationView(toolbar);
+//        setSearchFunction();
         setGridView();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setSearchFunction();
+    }
+
+    @Override
+    protected void onDestroy() {
+        databaseHelper.close();
+        super.onDestroy();
+    }
+
+    private void setSearchFunction() {
+        listResult = findViewById(R.id.search_result);
+        eAdapter = new ExpandableListAdapter(this, listJapaneseSentences, listMeaning);
+        listResult.setAdapter(eAdapter);
+        listResult.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (lastExpandedPosition != -1
+                        && groupPosition != lastExpandedPosition) {
+                    listResult.collapseGroup(lastExpandedPosition);
+                }
+                lastExpandedPosition = groupPosition;
+            }
+        });
+        listResult.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
     }
 
     @Override
@@ -50,30 +118,68 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (searchView.getQuery().length() != 0) {
+            searchView.setQuery("",false);
+        }
+        else {
             super.onBackPressed();
         }
+
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds sentences to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+
+            queryTextListener = new SearchView.OnQueryTextListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Log.i("onQueryTextChange", newText);
+                    if (Objects.equals(newText, "")) {
+                        eAdapter.setFilter(new ArrayList<Meaning>(),new ArrayList<JapaneseSentence>());
+                    } else {
+                        newText = newText.toLowerCase();
+                        newText = unAccent(newText);
+                        databaseHelper.getFilteredSentences("%" + newText + "%");
+                        Log.i("Array size:  ", databaseHelper.getListMeanings().size() + "");
+                        eAdapter.setFilter(databaseHelper.getListMeanings(),
+                                databaseHelper.getListJapansesSentences());
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Log.i("onQueryTextSubmit", query);
+
+                    return true;
+                }
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
+        }
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                // Not implemented here
+                return false;
+            default:
+                break;
         }
-
+        searchView.setOnQueryTextListener(queryTextListener);
         return super.onOptionsItemSelected(item);
     }
 
@@ -113,15 +219,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void readDB() {
-        DatabaseHelper.handleCopyingDataBase(this);
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
         categories = databaseHelper.getAllCategories();
         GridViewItem item;
         for (int i = 0; i < categories.size(); i++) {
             item = new GridViewItem(imageId[i], categories.get(i));
             items.add(item);
         }
-        databaseHelper.close();
     }
 
     public void setGridView() {
@@ -131,4 +234,27 @@ public class MainActivity extends AppCompatActivity
         gridView.setAdapter(gridViewAdapter);
 
     }
+
+//    @Override
+//    public boolean onQueryTextSubmit(String query) {
+//        return false;
+//    }
+
+    //    @Override
+//    public boolean onQueryTextChange(String newText) {
+//        newText = newText.toLowerCase();
+//        newText = unAccent(newText);
+//        databaseHelper.getFilteredSentences(newText);
+//        eAdapter.setFilter(databaseHelper.getListMeanings(),
+//                databaseHelper.getListJapansesSentences());
+//        return true;
+//    }
+    public static String unAccent(String s) {
+        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(temp).replaceAll("")
+                .replaceAll("Đ", "D")
+                .replace("đ", "");
+    }
+
 }

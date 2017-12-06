@@ -212,4 +212,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<JapaneseSentence> getListJapansesSentences() {
         return this.listJapansesSentences;
     }
+
+    public void getFilteredSentences(String query){
+        listMeanings.clear();
+        listJapansesSentences.clear();
+        try {
+            Cursor cursor = db.query("sentences", null, "english LIKE ? OR vietnamese LIKE ?",
+                    new String[]{query, query}, null, null, null);
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                int category_id = cursor.getInt(1);
+                String english = cursor.getString(2);
+                String pinyin = cursor.getString(3);
+                String japanese = cursor.getString(4);
+                int favorite = cursor.getInt(5);
+                String voice = cursor.getString(6);
+                int status = cursor.getInt(7);
+                String vietnamese = cursor.getString(8);
+                JapaneseSentence japaneseSentence = new JapaneseSentence(id, category_id,
+                        pinyin, japanese);
+                Meaning meaning = new Meaning(id, category_id, english, favorite,
+                        voice, status, vietnamese);
+                this.listJapansesSentences.add(japaneseSentence);
+                this.listMeanings.add(meaning);
+            }
+            cursor.close();
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
 }

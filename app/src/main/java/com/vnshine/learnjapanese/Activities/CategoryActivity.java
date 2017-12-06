@@ -21,7 +21,7 @@ import com.vnshine.learnjapanese.R;
 
 import java.util.ArrayList;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity  {
     private int lastExpandedPosition = -1;
     Toolbar toolbar;
     String category;
