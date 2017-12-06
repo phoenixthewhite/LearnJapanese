@@ -2,6 +2,7 @@ package com.vnshine.learnjapanese.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -15,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
@@ -24,6 +24,7 @@ import android.widget.GridView;
 import com.vnshine.learnjapanese.Adapters.ExpandableListAdapter;
 import com.vnshine.learnjapanese.Adapters.GridViewAdapter;
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
+import com.vnshine.learnjapanese.Dialog.CloseDialog;
 import com.vnshine.learnjapanese.Models.Category;
 import com.vnshine.learnjapanese.Models.GridViewItem;
 import com.vnshine.learnjapanese.Models.JapaneseSentence;
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
 
@@ -119,10 +120,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (searchView.getQuery().length() != 0) {
-            searchView.setQuery("",false);
-        }
-        else {
-            super.onBackPressed();
+            searchView.setQuery("", false);
+        } else {
+            CloseDialog closeDialog = new CloseDialog(this);
+            closeDialog.show();
         }
 
     }
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity
                 public boolean onQueryTextChange(String newText) {
                     Log.i("onQueryTextChange", newText);
                     if (Objects.equals(newText, "")) {
-                        eAdapter.setFilter(new ArrayList<Meaning>(),new ArrayList<JapaneseSentence>());
+                        eAdapter.setFilter(new ArrayList<Meaning>(), new ArrayList<JapaneseSentence>());
                     } else {
                         newText = newText.toLowerCase();
                         newText = unAccent(newText);
@@ -189,8 +190,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_translate) {
             // Handle the camera action
+            Intent intent = new Intent(this,TranslateActivity.class);
+            MainActivity.this.startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -216,6 +219,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
     }
 
     private void readDB() {
@@ -235,20 +239,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-//    @Override
-//    public boolean onQueryTextSubmit(String query) {
-//        return false;
-//    }
-
-    //    @Override
-//    public boolean onQueryTextChange(String newText) {
-//        newText = newText.toLowerCase();
-//        newText = unAccent(newText);
-//        databaseHelper.getFilteredSentences(newText);
-//        eAdapter.setFilter(databaseHelper.getListMeanings(),
-//                databaseHelper.getListJapansesSentences());
-//        return true;
-//    }
     public static String unAccent(String s) {
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");

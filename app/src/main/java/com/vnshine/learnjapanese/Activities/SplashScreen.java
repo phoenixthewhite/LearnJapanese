@@ -19,7 +19,7 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         final Intent intent=new Intent(this,MainActivity.class);
-        intent.setAction("main");
+        intent.setAction("menu_translate_activity");
         CountDownTimer countDownTimer=new CountDownTimer(200,100) {
             @Override
             public void onTick(long millisUntilFinished) {
