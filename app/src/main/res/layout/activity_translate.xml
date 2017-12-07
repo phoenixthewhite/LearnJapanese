@@ -33,7 +33,7 @@
                     android:maxLines="10"
                     android:gravity="left|top"
                     android:lines="5"
-                    android:id="@+id/text_candich"
+                    android:id="@+id/text_input"
                     android:paddingTop="15dp"
                     android:paddingRight="50dp"
                     android:text=""
@@ -49,20 +49,20 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginRight="15dp"
                     android:layout_alignParentRight="true"
-                    android:id="@+id/img_speak"
+                    android:id="@+id/img_voice_output1"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_micro"
+                    android:src="@drawable/listen"
                     />
                 <ImageView
 
                     android:id="@+id/img_voice_input"
                     android:layout_marginRight="15dp"
-                    android:layout_below="@+id/img_speak"
+                    android:layout_below="@+id/img_voice_output1"
                     android:layout_alignParentRight="true"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/listen"
+                    android:src="@drawable/ic_micro"
                     />
             </RelativeLayout>
 
@@ -75,7 +75,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_jap_vie"
+                    android:id="@+id/btn_jap_in"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -86,7 +86,7 @@
                     android:textColor="@color/white" />
 
                 <Button
-                    android:id="@+id/btn_vie_jap"
+                    android:id="@+id/btn_jap_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -101,7 +101,7 @@
                 <TextView
                     android:text=""
                     android:gravity="left|top"
-                    android:id="@+id/text_ketqua"
+                    android:id="@+id/text_output"
                     android:lines="5"
                     android:padding="10dp"
                     android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                     android:src="@drawable/listen"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
-                    android:id="@+id/img_voice_output"
+                    android:id="@+id/img_voice_output2"
                     android:layout_marginTop="20dp"/>
             </RelativeLayout>
         </LinearLayout>

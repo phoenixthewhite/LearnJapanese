@@ -66,7 +66,7 @@ public class SpeechPopUp extends Dialog implements RecognitionListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.speech_to_text_dialog);
+        setContentView(R.layout.dialog_speech_to_text);
         initComponent();
         playAudio();
         speech = SpeechRecognizer.createSpeechRecognizer(context);

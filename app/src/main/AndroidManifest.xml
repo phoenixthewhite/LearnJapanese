@@ -34,7 +34,8 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".Activities.CategoryActivity" />
-        <activity android:name=".Activities.TranslateActivity"></activity>
+        <activity android:name=".Activities.TranslateActivity" />
+        <activity android:name=".Activities.TestActivity"></activity>
     </application>
 
 </manifest>

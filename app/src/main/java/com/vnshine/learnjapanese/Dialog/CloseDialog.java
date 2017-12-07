@@ -37,7 +37,8 @@ public class CloseDialog extends Dialog {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.exit(0);
+                android.os.Process.killProcess(android.os.Process.myPid());
+//                System.exit(0);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {

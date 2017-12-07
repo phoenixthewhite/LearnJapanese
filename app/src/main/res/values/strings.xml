@@ -22,4 +22,7 @@
     <string name="enter_phrase_sentence_paragraph_here">Enter phrase, sentence, paragraph here.</string>
     <string name="result">Result...</string>
     <string name="translate">Translate</string>
+    <string name="speech_not_supported">Speech is not supported</string>
+    <string name="speech_prompt">Say something...</string>
+    <string name="translating">Translating....</string>
 </resources>
