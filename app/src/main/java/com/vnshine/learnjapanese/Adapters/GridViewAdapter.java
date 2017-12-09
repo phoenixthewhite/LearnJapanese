@@ -29,7 +29,6 @@ public class GridViewAdapter extends ArrayAdapter<GridViewItem> {
     Context context;
     LayoutInflater inflater;
     List<GridViewItem> items;
-    InputStream is;
 
     public GridViewAdapter(@NonNull Context context, int resource, @NonNull List<GridViewItem> objects) {
         super(context, resource, objects);

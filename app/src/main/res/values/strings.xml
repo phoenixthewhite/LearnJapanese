@@ -8,15 +8,13 @@
     <string name="learn_japanese_for_communications">Learn Japanese For Communications</string>
     <string name="developed_by_vnshineteam">Developed by VnShineTeam</string>
     <string name="test">Test</string>
-
-    <string name="correct">Correct!</string>
     <string name="incorrect">Incorrect!</string>
     <string name="hearing_nothing">We couldn\'t hear anything</string>
     <string name="processing">Processing...</string>
     <string name="no_internet">No internet connection!</string>
     <string name="exit">exit</string>
     <string name="cancel">Cancel</string>
-    <string name="are_you_sure_want_to_exit">Are you sure want to exit!</string>
+    <string name="are_you_sure_want_to_exit">Are you sure want to exit?</string>
     <string name="jap_vie">JAP - VIE</string>
     <string name="vie_jap">VIE - JAP</string>
     <string name="enter_phrase_sentence_paragraph_here">Enter phrase, sentence, paragraph here.</string>
@@ -25,4 +23,10 @@
     <string name="speech_not_supported">Speech is not supported</string>
     <string name="speech_prompt">Say something...</string>
     <string name="translating">Translating....</string>
+    <string name="read_this_sentence">Read this sentence.</string>
+    <string name="next">Next</string>
+    <string name="correct">Correct!</string>
+    <string name="another_answer">Another answer</string>
+    <string name="read_exactly_this_sentence">Read exactly this sentence.</string>
+    <string name="translate_this_sentence">Translate this sentence</string>
 </resources>

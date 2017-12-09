@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:layout_marginLeft="5dp"
-        android:id="@+id/back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_back_arrow" />
-
-    <ProgressBar
-        android:layout_gravity="center_vertical"
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
+    android:layout_height="match_parent">
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="1" />
-
-    <ImageView
-        android:layout_marginRight="5dp"
-        android:id="@+id/clear_progess"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_remove" />
-</LinearLayout>
+        android:text="Choose the right meaning"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:layout_marginTop="60dp"
+        android:id="@+id/question"
+        />
+    <RelativeLayout
+        android:layout_below="@id/question"
+        android:layout_marginTop="20dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:id="@+id/layout_sentence">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/speaker"
+            android:layout_centerVertical="true"
+            android:src="@drawable/listen"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tieng nhat"
+            android:layout_toRightOf="@id/speaker"
+            android:textSize="25sp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/sentence"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</RelativeLayout>

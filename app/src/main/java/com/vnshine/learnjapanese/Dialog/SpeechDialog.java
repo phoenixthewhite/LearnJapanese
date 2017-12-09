@@ -27,7 +27,7 @@ import java.util.Locale;
  * Created by phoenix on 12/1/17.
  */
 
-public class SpeechPopUp extends Dialog implements RecognitionListener {
+public class SpeechDialog extends Dialog implements RecognitionListener {
 
 
     private Button exit;
@@ -50,7 +50,7 @@ public class SpeechPopUp extends Dialog implements RecognitionListener {
     private MediaPlayer mp;
 
 
-    public SpeechPopUp(@NonNull Context context) {
+    public SpeechDialog(@NonNull Context context) {
         super(context);
         this.context = context;
         mp = new MediaPlayer();
@@ -211,7 +211,6 @@ public class SpeechPopUp extends Dialog implements RecognitionListener {
         } else {
             tResult.setTextColor(Color.RED);
             tResult.setText(R.string.incorrect);
-            tResult.setText(text);
         }
     }
 

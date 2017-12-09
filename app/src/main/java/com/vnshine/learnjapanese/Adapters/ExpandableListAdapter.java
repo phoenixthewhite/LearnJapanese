@@ -21,10 +21,9 @@ import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
 import com.vnshine.learnjapanese.Models.JapaneseSentence;
 import com.vnshine.learnjapanese.Models.Meaning;
 import com.vnshine.learnjapanese.R;
-import com.vnshine.learnjapanese.Dialog.SpeechPopUp;
+import com.vnshine.learnjapanese.Dialog.SpeechDialog;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -199,7 +198,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 mp.stop();
                 if (isInternetAvailable()){
-                    SpeechPopUp speechPopUp = new SpeechPopUp(context);
+                    SpeechDialog speechPopUp = new SpeechDialog(context);
                     speechPopUp.setContent(japanese, pinyin, identifier);
                     speechPopUp.show();
 //                    Toast.makeText(context, "Connection avalable",Toast.LENGTH_SHORT).show();

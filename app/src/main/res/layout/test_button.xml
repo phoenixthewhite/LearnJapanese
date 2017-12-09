@@ -14,15 +14,15 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="#ff3f3c">
+        app:cardCornerRadius="10dp">
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/test"
             android:textSize="27sp"
-            android:background="#00000000"
-            android:id="@+id/test"/>
+
+            android:background="#57ff29"
+            android:id="@+id/btn_test"/>
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

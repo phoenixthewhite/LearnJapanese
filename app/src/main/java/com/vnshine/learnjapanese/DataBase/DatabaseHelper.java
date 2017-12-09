@@ -9,6 +9,7 @@ import android.os.Environment;
 import com.vnshine.learnjapanese.Models.Category;
 import com.vnshine.learnjapanese.Models.JapaneseSentence;
 import com.vnshine.learnjapanese.Models.Meaning;
+import com.vnshine.learnjapanese.Models.Sentence;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -148,7 +149,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void getAllSentences(String category) {
-//        ArrayList<Sentence> sentences = new ArrayList<>();
+        ArrayList<Sentence> sentences = new ArrayList<>();
         try {
             Cursor cursor = db.query("sentences", null, "category_id = ?",
                     new String[]{category}, null, null, null);
@@ -168,6 +169,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         voice, status, vietnamese);
                 this.listJapansesSentences.add(japaneseSentence);
                 this.listMeanings.add(meaning);
+                Sentence sentence = new Sentence(id,category_id,english,pinyin,japanese,
+                        favorite,voice,status,vietnamese);
+
             }
             cursor.close();
 
@@ -242,4 +246,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             System.out.println(e.toString());
         }
     }
+
+    public ArrayList<Sentence> getAllSentences(String category, boolean b) {
+        ArrayList<Sentence> sentences = new ArrayList<>();
+        try {
+            Cursor cursor = db.query("sentences", null, "category_id = ?",
+                    new String[]{category}, null, null, null);
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                int category_id = cursor.getInt(1);
+                String english = cursor.getString(2);
+                String pinyin = cursor.getString(3);
+                String japanese = cursor.getString(4);
+                int favorite = cursor.getInt(5);
+                String voice = cursor.getString(6);
+//                int status = cursor.getInt(7);
+                int status = 0;
+                String vietnamese = cursor.getString(8);
+                Sentence sentence = new Sentence(id,category_id,english,pinyin,japanese,
+                        favorite,voice,status,vietnamese);
+                sentences.add(sentence);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return sentences;
+    }
+
 }

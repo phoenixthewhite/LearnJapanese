@@ -1,14 +1,13 @@
 package com.vnshine.learnjapanese.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
@@ -21,7 +20,7 @@ import com.vnshine.learnjapanese.R;
 
 import java.util.ArrayList;
 
-public class CategoryActivity extends AppCompatActivity  {
+public class CategoryActivity extends AppCompatActivity {
     private int lastExpandedPosition = -1;
     Toolbar toolbar;
     String category;
@@ -43,6 +42,20 @@ public class CategoryActivity extends AppCompatActivity  {
         getContent();
         setToolbar();
         setListView();
+        test = findViewById(R.id.btn_test);
+        if (category_id == 0) {
+            test.setBackgroundColor(Color.GRAY);
+            test.setEnabled(false);
+        } else
+            test.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CategoryActivity.this, TestActivity.class);
+                    intent.putExtra("category", category);
+                    intent.putExtra("category_id", category_id);
+                    CategoryActivity.this.startActivity(intent);
+                }
+            });
     }
 
     private void setListView() {
