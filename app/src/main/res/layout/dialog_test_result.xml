@@ -18,13 +18,13 @@
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:id="@+id/txt_dialog_result"
+        android:id="@+id/txt_dialog_correctness"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/txt_dialog_result"
+        android:layout_below="@id/txt_dialog_correctness"
         android:layout_marginTop="30dp"
         android:id="@+id/txt_dialog_text1"
         android:text="@string/another_answer"
@@ -40,6 +40,7 @@
         android:layout_marginTop="20dp"
         />
     <Button
+        android:id="@+id/btn_dialog_next"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"

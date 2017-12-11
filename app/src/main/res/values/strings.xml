@@ -29,4 +29,8 @@
     <string name="another_answer">Another answer</string>
     <string name="read_exactly_this_sentence">Read exactly this sentence.</string>
     <string name="translate_this_sentence">Translate this sentence</string>
+    <string name="translate_what_you_heard">Translate what you heard</string>
+    <string name="write_what_you_heard">Write what you heard</string>
+    <string name="correct_answer">Correct Answer:</string>
+
 </resources>

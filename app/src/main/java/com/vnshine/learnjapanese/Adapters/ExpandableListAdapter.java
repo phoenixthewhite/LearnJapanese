@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +152,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             mp = MediaPlayer.create(context, identifier);
             mp.start();
         }
+
     }
 
     private String getLanguage(Meaning meaning) {

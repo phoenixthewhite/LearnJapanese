@@ -202,8 +202,8 @@ public class SpeechDialog extends Dialog implements RecognitionListener {
         ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         String text = matches.get(0);
-        japanese = japanese.replaceAll("\\(.*?\\) ?", "");
-        japanese = japanese.replaceAll("\\.","");
+        japanese = japanese.replaceAll("\\(.*?\\) ?", "")
+                            .replaceAll("\\.","");
         System.out.println(text);
         if (text.equals(japanese)) {
             tResult.setTextColor(Color.GREEN);

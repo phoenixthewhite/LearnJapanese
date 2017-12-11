@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/frag_test_translate"
     android:padding="16dp">
 
     <TextView
@@ -49,6 +50,7 @@
         android:background="#93a6a6a6"
         android:layout_marginTop="50dp"
         android:hint="Type your answer here..."
+        android:gravity="top"
         />
 
     <ImageView
@@ -60,5 +62,15 @@
         android:layout_below="@+id/layout_sentence"
         android:layout_marginTop="18dp"
         android:src="@drawable/ic_help" />
+
+    <TextView
+        android:id="@+id/txt_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_help"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#2b2b2b"
+        android:textSize="16sp" />
 
 </RelativeLayout>
