@@ -4,6 +4,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.vnshine.learnjapanese.Activities.TestActivity;
 import com.vnshine.learnjapanese.Models.Sentence;
 import com.vnshine.learnjapanese.R;
 
@@ -36,7 +39,7 @@ public class TranslateFragment extends Fragment implements View.OnClickListener 
     private int selected;
     private String hintJapanese;
     private String hintLocalLanguage;
-    private boolean empty;
+
     public String getHintJapanese() {
         return hintJapanese;
     }
@@ -122,6 +125,22 @@ public class TranslateFragment extends Fragment implements View.OnClickListener 
         speaker.setOnClickListener(this);
         help.setOnClickListener(this);
         selected = selectTest();
+        inputSentence.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                TestActivity.setEnableCheck();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.equals("")) TestActivity.setDisableCheck();
+            }
+        });
         return view;
     }
 
@@ -223,41 +242,42 @@ public class TranslateFragment extends Fragment implements View.OnClickListener 
     }
 
     public boolean getResult() {
-        setEmpty();
-        if (getSelected() == 0 || getSelected() == 2) {
-            String s = String.valueOf(inputSentence.getText());
-            s = s.toLowerCase().trim().replaceAll("\\(.*?\\) ?", "")
-                    .replaceAll("\\.", "");
-            if (Locale.getDefault().getDisplayLanguage().equals("English")) {
-                if (s.equals(sentence.getEnglish().toLowerCase()
-                        .replaceAll("\\(.*?\\) ?", "")
+
+        if (!inputSentence.getText().equals("")) {
+            if (getSelected() == 0 || getSelected() == 2) {
+                String s = String.valueOf(inputSentence.getText());
+                s = s.toLowerCase().trim().replaceAll("\\(.*?\\) ?", "")
+                        .replaceAll("\\.", "");
+                if (Locale.getDefault().getDisplayLanguage().equals("English")) {
+                    if (s.equals(sentence.getEnglish().toLowerCase()
+                            .replaceAll("\\(.*?\\) ?", "")
+                            .replaceAll("\\.", ""))) {
+                        return true;
+                    } else return false;
+                } else {
+                    s = removeAccent(s);
+                    if (s.equals(sentence.getVietnamese())) {
+                        return true;
+                    } else return false;
+                }
+            } else { //to japanese
+                String s = String.valueOf(inputSentence.getText());
+                s = s.replaceAll("\\(.*?\\) ?", "")
+                        .replaceAll("\\.", "");
+                if (s.equals(sentence.getJapanese().replaceAll("\\(.*?\\) ?", "")
                         .replaceAll("\\.", ""))) {
                     return true;
                 } else return false;
-            } else {
-                s = removeAccent(s);
-                if (s.equals(sentence.getVietnamese())) {
-                    return true;
-                } else return false;
-            }
-        } else { //to japanese
-            String s = String.valueOf(inputSentence.getText());
-            s = s.replaceAll("\\(.*?\\) ?", "")
-                    .replaceAll("\\.", "");
-            if (s.equals(sentence.getJapanese().replaceAll("\\(.*?\\) ?", "")
-                    .replaceAll("\\.", ""))) {
-                return true;
-            } else return false;
 
+            }
         }
+        else return getResult();
     }
 
     public boolean isEmpty() {
-        return empty;
-    }
-
-    public void setEmpty() {
-        this.empty = (inputSentence.getText().equals("")) ? true : false;
+        if ("".equals(inputSentence.getText())) {
+            return false;
+        } else return true;
     }
 
     private String removeAccent(String s) {

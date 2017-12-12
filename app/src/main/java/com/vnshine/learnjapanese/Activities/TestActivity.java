@@ -2,6 +2,7 @@ package com.vnshine.learnjapanese.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
 import com.vnshine.learnjapanese.Dialog.ResultDialog;
+import com.vnshine.learnjapanese.Fragment.ChoiceFragment;
 import com.vnshine.learnjapanese.Fragment.PronounceFragment;
 import com.vnshine.learnjapanese.Fragment.TranslateFragment;
 import com.vnshine.learnjapanese.Models.Sentence;
@@ -25,20 +27,32 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     private static final String FRAGMENTTAG = "CONTAINER";
     private ImageView btnBack;
     private ImageView btnClearProgress;
-    private Button btnTest;
+    private static Button btnTest;
     private ProgressBar progressBar;
-    private String category;
+    private int count = 0;
     private int category_id;
+    private String category;
     private int status = 0;
     private Random random;
     private ArrayList<Sentence> listSentences;
+    private int position;
 
     public Sentence getSentence() {
         return sentence;
     }
 
-    public void setSentence(Sentence sentence) {
-        this.sentence = sentence;
+    public int setSentence() {
+        random = new Random();
+        int a;
+        while (true) {
+            a = random.nextInt(listSentences.size());
+            if (listSentences.get(a).getStatus() == 0) {
+                this.sentence = listSentences.get(a);
+                Log.e("select sentence error: ", this.sentence.getEnglish() + "");
+                break;
+            }
+        }
+        return a;
     }
 
     private Sentence sentence;
@@ -50,7 +64,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         readDB();
         initComponent();
         setFragment();
-
     }
 
     private void initComponent() {
@@ -66,27 +79,33 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setFragment() {
+        if (count == listSentences.size()){
+
+        }
         Random random = new Random();
-        int a = random.nextInt(2);
-//        switch (a) {
-//            case 0: {
-//                openFragment(new ChoiceFragment());
-//                break;
-//            }
-//            case 1: {
-        TranslateFragment translateFragment = new TranslateFragment();
-        setSentence(selectSentence());
-        translateFragment.setSentence(getSentence());
-        openFragment(translateFragment);
-//                break;
-//            }
-//            case 2: {
-//                PronounceFragment pronounceFragment = new PronounceFragment();
-//                pronounceFragment.setSentence(selectSentence());
-//                openFragment(pronounceFragment);
-//                break;
-//            }
-//        }
+        position = setSentence();
+        int a = random.nextInt(3);
+        switch (a) {
+            case 0: {
+                ChoiceFragment choiceFragment = new ChoiceFragment();
+                choiceFragment.setSentence(getSentence());
+                choiceFragment.setRandomSentence(randomThreeSentence());
+                openFragment(choiceFragment);
+                break;
+            }
+            case 1: {
+                TranslateFragment translateFragment = new TranslateFragment();
+                translateFragment.setSentence(getSentence());
+                openFragment(translateFragment);
+                break;
+            }
+            case 2: {
+                PronounceFragment pronounceFragment = new PronounceFragment();
+                pronounceFragment.setSentence(getSentence());
+                openFragment(pronounceFragment);
+                break;
+            }
+        }
     }
 
     private void openFragment(Fragment fragment) {
@@ -108,25 +127,51 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case R.id.btn_next: {
-//                setFragment();
-//                progressBar.setProgress(status++);
                 Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(FRAGMENTTAG);
                 if (currentFragment instanceof PronounceFragment) {
+                    boolean result = ((PronounceFragment) currentFragment).getResult();
+                    if (result){
+                        count++;
+                        progressBar.setProgress(count);
+                        listSentences.get(position).setStatus(1);
+                    }
+                    setEnableCheck();
                     setFragment();
                 } else if (currentFragment instanceof TranslateFragment) {
                     boolean result = ((TranslateFragment) currentFragment).getResult();
-//                    boolean selectedTest = ((TranslateFragment) currentFragment).getSelectedTest();
-                    if (!((TranslateFragment) currentFragment).isEmpty()){
-                        ResultDialog resultDialog = new ResultDialog(this);
-                        resultDialog.getContent(result, getSentence());
-                        resultDialog.show();
-                        resultDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                setFragment();
-                            }
-                        });
+                    if (result){
+                        count++;
+                        progressBar.setProgress(count);
+                        listSentences.get(position).setStatus(1);
                     }
+                    ResultDialog resultDialog = new ResultDialog(this);
+                    resultDialog.getContent(result, getSentence());
+                    resultDialog.show();
+                    resultDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            setFragment();
+                            setDisableCheck();
+                        }
+                    });
+//                    }
+                } else if (currentFragment instanceof ChoiceFragment) {
+                    boolean result = ((ChoiceFragment) currentFragment).getResult();
+                    if (result){
+                        count++;
+                        progressBar.setProgress(count);
+                        listSentences.get(position).setStatus(1);
+                    }
+                    ResultDialog resultDialog = new ResultDialog(this);
+                    resultDialog.getContent(result, getSentence());
+                    resultDialog.show();
+                    resultDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            setFragment();
+                            setDisableCheck();
+                        }
+                    });
                 }
             }
         }
@@ -155,13 +200,41 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         return count;
     }
 
-    private Sentence selectSentence() {
-        random = new Random();
-        int a = random.nextInt(listSentences.size());
-        if (listSentences.get(a).getStatus() == 0) {
-            listSentences.get(a).setStatus(1);
-            return listSentences.get(a);
-        } else return selectSentence();
+    public static void setEnableCheck(){
+        btnTest.setEnabled(true);
+        btnTest.setTextColor(Color.GREEN);
+        btnTest.setBackgroundResource(R.drawable.button_border_green);
+    }
+
+    public static void setDisableCheck(){
+        btnTest.setEnabled(false);
+        btnTest.setTextColor(Color.GRAY);
+        btnTest.setBackgroundResource(R.drawable.button_border_gray);
+    }
+
+    private ArrayList<Sentence> randomThreeSentence() {
+        Random random = new Random();
+        ArrayList<Sentence> list = new ArrayList<>();
+        int a, b, c;
+        while (true) {
+            a = random.nextInt(listSentences.size());
+            if (a != getSentence().getId()) break;
+        }
+        while (true) {
+            b = random.nextInt(listSentences.size());
+            if (b != getSentence().getId() && b != a) break;
+        }
+        while (true) {
+            c = random.nextInt(listSentences.size());
+            if (c != getSentence().getId() && c != a && c != b) break;
+        }
+        Log.e("random bug: ", listSentences.get(a).getEnglish());
+        Log.e("random bug: ", listSentences.get(b).getEnglish());
+        Log.e("random bug: ", listSentences.get(c).getEnglish());
+        list.add(listSentences.get(a));
+        list.add(listSentences.get(b));
+        list.add(listSentences.get(c));
+        return list;
     }
 
 

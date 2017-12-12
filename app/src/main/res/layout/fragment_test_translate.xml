@@ -49,7 +49,7 @@
         android:layout_below="@id/layout_sentence"
         android:background="#93a6a6a6"
         android:layout_marginTop="50dp"
-        android:hint="Type your answer here..."
+        android:hint="@string/type_your_answer_here"
         android:gravity="top"
         />
 
@@ -71,6 +71,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textColor="#2b2b2b"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_marginRight="70dp"/>
 
 </RelativeLayout>

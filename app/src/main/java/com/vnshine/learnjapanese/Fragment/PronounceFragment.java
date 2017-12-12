@@ -9,7 +9,6 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ import java.util.Locale;
  * Created by phoenix on 12/8/17.
  */
 
-public class PronounceFragment extends Fragment implements RecognitionListener, View.OnClickListener{
+public class PronounceFragment extends Fragment implements RecognitionListener, View.OnClickListener {
     Sentence sentence;
     TextView question;
     ImageView speaker;
@@ -136,11 +135,9 @@ public class PronounceFragment extends Fragment implements RecognitionListener, 
         ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         String text = matches.get(0);
-//        japanese = japanese.replaceAll("\\(.*?\\) ?", "");
-//        japanese = japanese.replaceAll("\\.","");
         String checksum = sentence.getJapanese();
         checksum = checksum.replaceAll("\\(.*?\\) ?", "");
-        checksum = checksum.replaceAll("\\.","");
+        checksum = checksum.replaceAll("\\.", "");
         System.out.println(text);
         if (text.equals(checksum)) {
             result.setTextColor(Color.GREEN);
@@ -148,8 +145,15 @@ public class PronounceFragment extends Fragment implements RecognitionListener, 
         } else {
             result.setTextColor(Color.RED);
             result.setText(R.string.incorrect);
-            System.out.println(text );
+            System.out.println(text);
         }
+    }
+
+    public boolean getResult() {
+        if (result.getText().equals(R.string.correct)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -164,12 +168,12 @@ public class PronounceFragment extends Fragment implements RecognitionListener, 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.img_pronounce_speaker:{
+        switch (v.getId()) {
+            case R.id.img_pronounce_speaker: {
                 playAudio();
                 break;
             }
-            case R.id.img_micButton:{
+            case R.id.img_micButton: {
                 speak();
                 break;
             }
@@ -205,6 +209,7 @@ public class PronounceFragment extends Fragment implements RecognitionListener, 
             }
         });
     }
+
     public static String getErrorText(int errorCode) {
         String message;
         switch (errorCode) {

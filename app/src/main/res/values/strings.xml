@@ -32,5 +32,12 @@
     <string name="translate_what_you_heard">Translate what you heard</string>
     <string name="write_what_you_heard">Write what you heard</string>
     <string name="correct_answer">Correct Answer:</string>
+    <string name="choose_the_sentence_that_you_heard">Choose the sentence that you heard</string>
+    <string name="choose_the_right_meaning_of_this_sentence">Choose the right meaning of this sentence</string>
+    <string name="choose_the_correct_meaning_of_the_sentence_that_you_heard">Choose the correct meaning of the sentence that you heard</string>
+    <string name="check">Check</string>
+    <string name="type_your_answer_here">Type your answer here...</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="you_have_completed_all_the_test">You have completed all the test</string>
 
 </resources>
