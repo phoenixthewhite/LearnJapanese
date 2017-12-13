@@ -1,11 +1,15 @@
 package com.vnshine.learnjapanese.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -32,6 +36,7 @@ public class CategoryActivity extends AppCompatActivity {
     ArrayList<JapaneseSentence> listJapaneseSentences = new ArrayList<>();
     ArrayList<Meaning> listMeanings = new ArrayList<>();
     Button test;
+    boolean lastStatus = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,45 @@ public class CategoryActivity extends AppCompatActivity {
                     CategoryActivity.this.startActivity(intent);
                 }
             });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_category_activity, menu);
+//        final MenuItem mute = findViewById(R.id.action_mute);
+//        mute.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                if (lastStatus){
+//                    mp.setVolume(0,0);
+//                    item.setIcon(R.drawable.ic_volume_off_white_24dp);
+//                    lastStatus = false;
+//                }else {
+//                    mp.setVolume(1,1);
+//                    item.setIcon(R.drawable.ic_volume_up_white_24dp);
+//                    lastStatus = true;
+//                }
+//                return true;
+//
+//            }
+//        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (lastStatus) {
+            AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            manager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+            item.setIcon(R.drawable.ic_volume_off_white_24dp);
+            lastStatus = false;
+        } else {
+            AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            manager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            item.setIcon(R.drawable.ic_volume_up_white_24dp);
+            lastStatus = true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setListView() {

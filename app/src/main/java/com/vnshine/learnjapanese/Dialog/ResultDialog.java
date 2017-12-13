@@ -65,7 +65,7 @@ public class ResultDialog extends Dialog {
         }else {
             correctness.setText(R.string.incorrect);
             correctness.setTextColor(Color.RED);
-            text1.setText(context.getString(R.string.correct_answer)+sentence.getJapanese());
+            text1.setText(context.getString(R.string.correct_answer)+" "+sentence.getJapanese());
             if (Locale.getDefault().getDisplayLanguage().equals("English")){
                 text2.setText(sentence.getEnglish());
             }else text2.setText(sentence.getVietnamese());

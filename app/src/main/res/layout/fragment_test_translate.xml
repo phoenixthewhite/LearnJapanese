@@ -42,6 +42,7 @@
     </RelativeLayout>
 
     <EditText
+        android:padding="9dp"
         android:id="@+id/edt_translate_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

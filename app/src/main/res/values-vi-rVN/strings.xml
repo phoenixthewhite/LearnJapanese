@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Learn Japanese</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="learn_japanese_for_communications">Learn Japanese For Communications</string>
+    <string name="developed_by_vnshineteam">Developed by VnShineTeam</string>
+    <string name="test">Test</string>
+    <string name="incorrect">Chưa chính xác!</string>
+    <string name="hearing_nothing">Chúng tôi chưa nghe thấy bạn</string>
+    <string name="processing">Đang xử lý\.\.\.</string>
+    <string name="no_internet">Không có kết nối mạng!</string>
+    <string name="exit">Thoát</string>
+    <string name="cancel">Hủy</string>
+    <string name="are_you_sure_want_to_exit" translatable="false">Bạn chắc chắn muốn thoát?</string>
+    <string name="jap_vie">JAP - VIE</string>
+    <string name="vie_jap">VIE - JAP</string>
+    <string name="enter_phrase_sentence_paragraph_here">Enter nhập cụm từ, câu, đoạn văn để dịch</string>
+    <string name="result">Kết quả</string>
+    <string name="translate">Dịch câu</string>
+    <string name="speech_not_supported">Ngôn ngữ không được hỗ trợ</string>
+    <string name="speech_prompt">Nói gì đó\.\.\.</string>
+    <string name="translating">Đang dịch\.\.\.</string>
+    <string name="read_this_sentence">Đọc câu sau</string>
+    <string name="next">Next</string>
+    <string name="correct">Chính xác!</string>
+    <string name="another_answer">Another answer</string>
+    <string name="read_exactly_this_sentence">Đọc chính xác câu này</string>
+    <string name="translate_this_sentence">Dịch câu này</string>
+    <string name="translate_what_you_heard">Dịch câu bạn nghe được</string>
+    <string name="write_what_you_heard">Viết câu bạn nghe được</string>
+    <string name="correct_answer">Đáp án:</string>
+    <string name="choose_the_sentence_that_you_heard">Chọn câu bạn nghe được</string>
+    <string name="choose_the_right_meaning_of_this_sentence">Chọn nghĩa chính xác của câu này</string>
+    <string name="choose_the_correct_meaning_of_the_sentence_that_you_heard">Chọn nghĩa chính xác câu bạn nghe được</string>
+    <string name="check">Kiểm tra</string>
+    <string name="type_your_answer_here">Nhập câu trả lời của bạn\.\.\.</string>
+    <string name="congratulations">Xin chúc mừng!</string>
+    <string name="you_have_completed_all_the_test">Bạn đã hoàn thành bài kiểm tra</string>
+    <string name="more">Xem thêm</string>
+    <string name="support">Hỗ trợ</string>
+    <string name="more_app">Ứng dụng khác</string>
+
+</resources>

@@ -5,11 +5,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="Result"
-        android:background="#006adc"
+        android:text="@string/result"
+        android:background="#e53e88ff"
         android:textColor="#ffffff"
         android:gravity="center"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:layout_alignParentTop="true"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

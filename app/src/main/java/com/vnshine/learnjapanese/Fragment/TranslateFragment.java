@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -243,35 +244,36 @@ public class TranslateFragment extends Fragment implements View.OnClickListener 
 
     public boolean getResult() {
 
-        if (!inputSentence.getText().equals("")) {
-            if (getSelected() == 0 || getSelected() == 2) {
-                String s = String.valueOf(inputSentence.getText());
-                s = s.toLowerCase().trim().replaceAll("\\(.*?\\) ?", "")
-                        .replaceAll("\\.", "");
-                if (Locale.getDefault().getDisplayLanguage().equals("English")) {
-                    if (s.equals(sentence.getEnglish().toLowerCase()
-                            .replaceAll("\\(.*?\\) ?", "")
-                            .replaceAll("\\.", ""))) {
-                        return true;
-                    } else return false;
-                } else {
-                    s = removeAccent(s);
-                    if (s.equals(sentence.getVietnamese())) {
-                        return true;
-                    } else return false;
-                }
-            } else { //to japanese
-                String s = String.valueOf(inputSentence.getText());
-                s = s.replaceAll("\\(.*?\\) ?", "")
-                        .replaceAll("\\.", "");
-                if (s.equals(sentence.getJapanese().replaceAll("\\(.*?\\) ?", "")
-                        .replaceAll("\\.", ""))) {
+        if (getSelected() == 0 || getSelected() == 2) {
+            String s = String.valueOf(inputSentence.getText());
+            s = s.toLowerCase().trim().replaceAll("\\(.*?\\) ?", "")
+                    .replaceAll("\\.", "").replaceAll("\\?", "");
+            Log.e("getResult: ", sentence.getEnglish().toLowerCase()
+                    .replaceAll("\\(.*?\\) ?", "")
+                    .replaceAll("\\.", ""));
+            Log.e("getResult: ", s + "");
+            if (Locale.getDefault().getDisplayLanguage().equals("English")) {
+                if (s.equals(sentence.getEnglish().toLowerCase()
+                        .replaceAll("\\(.*?\\) ?", "")
+                        .replaceAll("\\.", "").replaceAll("\\?", ""))) {
                     return true;
                 } else return false;
-
+            } else {
+                s = removeAccent(s);
+                if (s.equals(sentence.getVietnamese())) {
+                    return true;
+                } else return false;
             }
+        } else { //to japanese
+            String s = String.valueOf(inputSentence.getText());
+            s = s.replaceAll("\\(.*?\\) ?", "")
+                    .replaceAll("\\.", "")
+                    .replaceAll("\\?", "");
+            if (s.equals(sentence.getJapanese().replaceAll("\\(.*?\\) ?", "")
+                    .replaceAll("\\.", "").replaceAll("\\?", ""))) {
+                return true;
+            } else return false;
         }
-        else return getResult();
     }
 
     public boolean isEmpty() {

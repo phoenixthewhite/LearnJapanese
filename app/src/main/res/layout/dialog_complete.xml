@@ -22,10 +22,11 @@
         android:text="@string/you_have_completed_all_the_test"/>
     <Button
         android:layout_width="140dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/button_border"
         android:layout_alignParentBottom="true"
         android:text="ok"
+        android:id="@+id/ok"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"/>

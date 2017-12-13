@@ -1,12 +1,17 @@
 package com.vnshine.learnjapanese.Activities;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,7 +25,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.vnshine.learnjapanese.Adapters.ExpandableListAdapter;
 import com.vnshine.learnjapanese.Adapters.GridViewAdapter;
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
@@ -51,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseHelper databaseHelper;
     private int lastExpandedPosition = -1;
 
+
     int[] imageId = new int[]{
             R.drawable.favorite, R.drawable.greeting, R.drawable.general, R.drawable.number
             , R.drawable.time, R.drawable.direction, R.drawable.transportation, R.drawable.accommodation
@@ -70,7 +79,27 @@ public class MainActivity extends AppCompatActivity
         setNavigationView(toolbar);
 //        setSearchFunction();
         setGridView();
+        setPermission();
 
+    }
+
+    private void setPermission() {
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+//                Toast.makeText(MainActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Toast.makeText(MainActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        };
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("If you reject permission,you can not use pronounce function\n\nPlease turn on permissions at [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.RECORD_AUDIO)
+                .check();
     }
 
     @Override
@@ -194,15 +223,15 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             Intent intent = new Intent(this,TranslateActivity.class);
             MainActivity.this.startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_support) {
+            this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/dev?id=7261021571514228233")));
+        } else if (id == R.id.nav_about) {
+            this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://vnshineteam.tech/")));
+//        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
 
         }
 

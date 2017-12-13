@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.vnshine.learnjapanese.DataBase.DatabaseHelper;
+import com.vnshine.learnjapanese.Dialog.CompleteDialog;
 import com.vnshine.learnjapanese.Dialog.ResultDialog;
 import com.vnshine.learnjapanese.Fragment.ChoiceFragment;
 import com.vnshine.learnjapanese.Fragment.PronounceFragment;
@@ -80,7 +81,15 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setFragment() {
         if (count == listSentences.size()){
-
+            CompleteDialog completeDialog = new CompleteDialog(this);
+            completeDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    TestActivity.this.finish();
+                }
+            });
+            completeDialog.show();
+            return;
         }
         Random random = new Random();
         position = setSentence();
@@ -100,6 +109,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case 2: {
+                setEnableCheck();
                 PronounceFragment pronounceFragment = new PronounceFragment();
                 pronounceFragment.setSentence(getSentence());
                 openFragment(pronounceFragment);
@@ -123,7 +133,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             }
             case R.id.btn_clear_progess: {
-
+                progressBar.setProgress(0);
+                listSentences.clear();
+                readDB();
+                setFragment();
                 break;
             }
             case R.id.btn_next: {
@@ -135,7 +148,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                         progressBar.setProgress(count);
                         listSentences.get(position).setStatus(1);
                     }
-                    setEnableCheck();
+                    setDisableCheck();
                     setFragment();
                 } else if (currentFragment instanceof TranslateFragment) {
                     boolean result = ((TranslateFragment) currentFragment).getResult();
@@ -228,9 +241,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             c = random.nextInt(listSentences.size());
             if (c != getSentence().getId() && c != a && c != b) break;
         }
-        Log.e("random bug: ", listSentences.get(a).getEnglish());
-        Log.e("random bug: ", listSentences.get(b).getEnglish());
-        Log.e("random bug: ", listSentences.get(c).getEnglish());
         list.add(listSentences.get(a));
         list.add(listSentences.get(b));
         list.add(listSentences.get(c));

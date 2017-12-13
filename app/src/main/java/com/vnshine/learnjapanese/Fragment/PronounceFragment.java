@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.vnshine.learnjapanese.Activities.TestActivity;
 import com.vnshine.learnjapanese.Models.Sentence;
 import com.vnshine.learnjapanese.R;
 
@@ -44,6 +45,7 @@ public class PronounceFragment extends Fragment implements RecognitionListener, 
         super.onCreate(savedInstanceState);
         promptSpeechInput();
         mp = new MediaPlayer();
+        TestActivity.setEnableCheck();
     }
 
     private void promptSpeechInput() {
@@ -137,7 +139,7 @@ public class PronounceFragment extends Fragment implements RecognitionListener, 
         String text = matches.get(0);
         String checksum = sentence.getJapanese();
         checksum = checksum.replaceAll("\\(.*?\\) ?", "");
-        checksum = checksum.replaceAll("\\.", "");
+        checksum = checksum.replaceAll("\\.", "").replaceAll("\\?", "");
         System.out.println(text);
         if (text.equals(checksum)) {
             result.setTextColor(Color.GREEN);

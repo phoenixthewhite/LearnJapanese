@@ -26,7 +26,7 @@ import java.util.Random;
  * Created by phoenix on 12/8/17.
  */
 
-public class ChoiceFragment extends Fragment implements View.OnClickListener{
+public class ChoiceFragment extends Fragment implements View.OnClickListener {
 
     private TextView question;
     private TextView choiceSentence;
@@ -113,12 +113,12 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
         Log.e("sentence: ", sentence.getEnglish());
         randomSentence.add(sentence);
         Collections.shuffle(randomSentence);
-        if (Locale.getDefault().getDisplayLanguage().equals("English")){
+        if (Locale.getDefault().getDisplayLanguage().equals("English")) {
             first.setText(randomSentence.get(0).getEnglish());
             second.setText(randomSentence.get(1).getEnglish());
             third.setText(randomSentence.get(2).getEnglish());
             fourth.setText(randomSentence.get(3).getEnglish());
-        }else {
+        } else {
             first.setText(randomSentence.get(0).getVietnamese());
             second.setText(randomSentence.get(1).getVietnamese());
             third.setText(randomSentence.get(2).getVietnamese());
@@ -134,12 +134,12 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
         Log.e("sentence: ", sentence.getEnglish());
         randomSentence.add(sentence);
         Collections.shuffle(randomSentence);
-        if (Locale.getDefault().getDisplayLanguage().equals("English")){
+        if (Locale.getDefault().getDisplayLanguage().equals("English")) {
             first.setText(randomSentence.get(0).getEnglish());
             second.setText(randomSentence.get(1).getEnglish());
             third.setText(randomSentence.get(2).getEnglish());
             fourth.setText(randomSentence.get(3).getEnglish());
-        }else {
+        } else {
             first.setText(randomSentence.get(0).getVietnamese());
             second.setText(randomSentence.get(1).getVietnamese());
             third.setText(randomSentence.get(2).getVietnamese());
@@ -150,9 +150,9 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
     //local language to japanese
     private void test1() {
         question.setText(R.string.choose_the_right_meaning_of_this_sentence);
-        if (Locale.getDefault().getDisplayLanguage().equals("English")){
+        if (Locale.getDefault().getDisplayLanguage().equals("English")) {
             choiceSentence.setText(sentence.getEnglish());
-        }else choiceSentence.setText(sentence.getVietnamese());
+        } else choiceSentence.setText(sentence.getVietnamese());
         Log.e("sentence: ", sentence.getEnglish());
         randomSentence.add(sentence);
         Collections.shuffle(randomSentence);
@@ -177,8 +177,8 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.img_choice_speaker:{
+        switch (v.getId()) {
+            case R.id.img_choice_speaker: {
                 playAudio();
             }
         }
@@ -208,24 +208,20 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
         this.randomSentence = randomSentence;
     }
 
-    public ArrayList<Sentence> getRandomSentence() {
-        return randomSentence;
-    }
-
-    public boolean getResult(){
-        if (selectedTest == 0 || selectedTest == 1){
-            if (getCheckedSentence().equals(sentence.getJapanese())){
+    public boolean getResult() {
+        if (selectedTest == 0 || selectedTest == 1) {
+            if (getCheckedSentence().equals(sentence.getJapanese())) {
                 return true;
             }
             return false;
-        }else {
-            if (Locale.getDefault().getDisplayLanguage().equals("English")){
-                if (getCheckedSentence().equals(sentence.getEnglish())){
+        } else {
+            if (Locale.getDefault().getDisplayLanguage().equals("English")) {
+                if (getCheckedSentence().toLowerCase().equals(sentence.getEnglish().toLowerCase())) {
                     return true;
                 }
                 return false;
-            }else {
-                if (getCheckedSentence().equals(sentence.getVietnamese())){
+            } else {
+                if (getCheckedSentence().equals(sentence.getVietnamese())) {
                     return true;
                 }
                 return false;
@@ -233,9 +229,9 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private String getCheckedSentence(){
+    private String getCheckedSentence() {
         String s;
-        switch (radioGroup.getCheckedRadioButtonId()){
+        switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.radio_first: {
                 s = String.valueOf(first.getText());
                 break;
@@ -244,11 +240,11 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
                 s = String.valueOf(second.getText());
                 break;
             }
-            case R.id.third:{
+            case R.id.radio_third: {
                 s = String.valueOf(third.getText());
                 break;
             }
-            case R.id.radio_fourth:{
+            case R.id.radio_fourth: {
                 s = String.valueOf(fourth.getText());
                 break;
             }
@@ -257,6 +253,7 @@ public class ChoiceFragment extends Fragment implements View.OnClickListener{
                 break;
             }
         }
+        Log.e("getCheckedSentence: ", s + "");
         return s;
     }
 
