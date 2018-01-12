@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -38,6 +39,7 @@ import com.vnshine.learnjapanese.Models.GridViewItem;
 import com.vnshine.learnjapanese.Models.JapaneseSentence;
 import com.vnshine.learnjapanese.Models.Meaning;
 import com.vnshine.learnjapanese.R;
+import com.vnshine.lib.ads.VnshineAds;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -72,6 +74,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        LinearLayout layout = (LinearLayout) findViewById(R.id.ads);
+//        VnshineAds.getInstance().showBannerAds(layout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         DatabaseHelper.handleCopyingDataBase(this);
         databaseHelper = new DatabaseHelper(this);
@@ -218,7 +222,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_translate) {
             // Handle the camera action
             Intent intent = new Intent(this,TranslateActivity.class);
@@ -248,6 +251,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
         navigationView.setItemIconTintList(null);
     }
 

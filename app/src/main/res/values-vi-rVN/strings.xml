@@ -15,7 +15,7 @@
     <string name="no_internet">Không có kết nối mạng!</string>
     <string name="exit">Thoát</string>
     <string name="cancel">Hủy</string>
-    <string name="are_you_sure_want_to_exit" translatable="false">Bạn chắc chắn muốn thoát?</string>
+    <string name="are_you_sure_want_to_exit" >Bạn chắc chắn muốn thoát?</string>
     <string name="jap_vie">JAP - VIE</string>
     <string name="vie_jap">VIE - JAP</string>
     <string name="enter_phrase_sentence_paragraph_here">Enter nhập cụm từ, câu, đoạn văn để dịch</string>

@@ -21,6 +21,7 @@ import com.vnshine.learnjapanese.Models.JapaneseSentence;
 import com.vnshine.learnjapanese.Models.Meaning;
 import com.vnshine.learnjapanese.Models.Sentence;
 import com.vnshine.learnjapanese.R;
+import com.vnshine.lib.ads.VnshineAds;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,7 @@ public class CategoryActivity extends AppCompatActivity {
             test.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Intent intent = new Intent(CategoryActivity.this, TestActivity.class);
                     intent.putExtra("category", category);
                     intent.putExtra("category_id", category_id);

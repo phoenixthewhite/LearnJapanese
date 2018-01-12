@@ -1,5 +1,6 @@
 package com.vnshine.learnjapanese.Activities;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +8,11 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -69,7 +74,6 @@ public class TranslateActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translate);
-
         setToolbar();
         initView();
 //        speakUltil=new SpeakUltil(this);
@@ -371,5 +375,6 @@ public class TranslateActivity extends AppCompatActivity implements View.OnClick
             Log.e("TTS", "Initilization Failed!");
         }
     }
+
 
 }

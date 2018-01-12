@@ -14,7 +14,7 @@
     <string name="no_internet">No internet connection!</string>
     <string name="exit">exit</string>
     <string name="cancel">Cancel</string>
-    <string name="are_you_sure_want_to_exit" translatable="false">Are you sure want to exit?</string>
+    <string name="are_you_sure_want_to_exit" >Are you sure want to exit?</string>
     <string name="jap_vie">JAP - ENG</string>
     <string name="vie_jap">ENG - JAP</string>
     <string name="enter_phrase_sentence_paragraph_here">Enter phrase, sentence, paragraph here.</string>

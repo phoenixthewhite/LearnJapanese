@@ -20,11 +20,13 @@ import com.vnshine.learnjapanese.Fragment.PronounceFragment;
 import com.vnshine.learnjapanese.Fragment.TranslateFragment;
 import com.vnshine.learnjapanese.Models.Sentence;
 import com.vnshine.learnjapanese.R;
+import com.vnshine.lib.ads.VnshineAds;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener {
+    public static int countAds = 0;
     private static final String FRAGMENTTAG = "CONTAINER";
     private ImageView btnBack;
     private ImageView btnClearProgress;
@@ -65,6 +67,12 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         readDB();
         initComponent();
         setFragment();
+        countAds++;
+        if (countAds>2){
+            VnshineAds.getInstance().showFullAds();
+            countAds =0;
+        }
+
     }
 
     private void initComponent() {
